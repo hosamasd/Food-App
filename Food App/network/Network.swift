@@ -21,7 +21,8 @@ class Network {
     
 
 
-public static var urlBase: String = "http://localhost:3001/api/admin/"
+//public static var urlBase: String = "http://localhost:3001/api/admin/"
+    public static var urlBase: String = "http://localhost:3001/api/app/"
 
 
     public enum NetworkError: Error {
@@ -40,7 +41,15 @@ public static var urlBase: String = "http://localhost:3001/api/admin/"
     public enum APIs  {
         public static var Login = "login"
         public static var signup = "sign_up"
+        public static var forget = "forgot_password_request"
+        public static var forget_verfiy = "forgot_password_verify"
+        public static var forgot_password_set_password = "forgot_password_set_password"
+        public static var updateProfile = "update_profile"
+        public static var readAllNotification = "notification_read_all"
+        public static var getAllNotification = "notification_list"
 
+        
+        
         
         public static var saveVisit = "save-actuals"
         public static var storeLocation = "store_location"
@@ -118,11 +127,14 @@ public static var urlBase: String = "http://localhost:3001/api/admin/"
     {
         case Login
         case signup
-        case saveVisit
-        case storeLocation
-
+        case forget
+        case forget_verfiy
+        case forgot_password_set_password
+        case updateProfile
+        case readAllNotification
+        case getAllNotification
         
-        case savePlanningVisit
+        
         case saveApprovalPlans
         case uploadVisitImages
 
@@ -177,13 +189,20 @@ public static var urlBase: String = "http://localhost:3001/api/admin/"
                 return Network.urlBase + APIs.Login
             case .signup:
                 return Network.urlBase + APIs.signup
-            case .saveVisit:
-                return Network.urlBase + APIs.saveVisit
-            case .storeLocation:
-                return Network.urlBase + APIs.storeLocation
+            case .forget:
+                return Network.urlBase + APIs.forget
+            case .forget_verfiy:
+                return Network.urlBase + APIs.forget_verfiy
+            case .forgot_password_set_password:
+                return Network.urlBase + APIs.forgot_password_set_password
+            case .updateProfile:
+                return Network.urlBase + APIs.updateProfile
+            case .readAllNotification:
+                return Network.urlBase + APIs.readAllNotification
+            case .getAllNotification:
+                return Network.urlBase + APIs.getAllNotification
                 
-            case .savePlanningVisit:
-                return Network.urlBase + APIs.savePlanningVisit
+                
             case .saveApprovalPlans:
                 return Network.urlBase + APIs.saveApprovalPlans
             case .uploadVisitImages:
@@ -362,7 +381,11 @@ public static var urlBase: String = "http://localhost:3001/api/admin/"
 //            }
             
 //            request.setValue("\(session.customer!.accessToken)" , forHTTPHeaderField: "x-auth-token")
-            request.setValue("Bearer "+UserToken , forHTTPHeaderField: "Authorization")
+            let cacheUser: LocalJSONStore<UserModel> = LocalJSONStore(storageType: .cache, filename: "UserModel.json")
+            let access_token = "jd6lMJhd6sLLR6cCfjhK"//cacheUser.storedValue?.authToken ?? 
+//            let access_token = cacheUser.storedValue?.authToken ?? "8F9WIG9MwqcTJkpkRXrP"
+
+            request.setValue(access_token , forHTTPHeaderField: "access_token")
 
             
             
@@ -502,13 +525,15 @@ public static var urlBase: String = "http://localhost:3001/api/admin/"
  
     }
     
-    public static func POST<T: Decodable, B: Encodable>(route: Routes, auth: Bool = true, body: B) async throws -> T {
+    public static func POST<T: Decodable, B: Encodable>(route: Routes, auth: Bool = true, body: B?) async throws -> T {
      
         var request = try makeRequest(route: route, method: .POST, auth: auth)
         
         let encoder = JSONEncoder()
            encoder.outputFormatting = .prettyPrinted
-        request.httpBody = try encoder.encode(body)//JSONEncoder().encode(body)
+        if let body {
+            request.httpBody = try encoder.encode(body)//JSONEncoder().encode(body)
+        }
         
         let (data, urlResponse) = try await withTimeout(timeout: timeoutVal) {
             try await URLSession.shared.data(for: request)
@@ -657,8 +682,9 @@ public static var urlBase: String = "http://localhost:3001/api/admin/"
      
         var request = try makeRequest(route: route, method: .JSON_POST, auth: auth)
         
+       
+            request.httpBody = try JSONEncoder().encode(body)
         
-        request.httpBody = try JSONEncoder().encode(body)
 //        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         
         let (data, urlResponse) = try await withTimeout(timeout: timeoutVal) {

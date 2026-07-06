@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-struct SignUpScene: View {
+struct SignUpView: View {
     @ObservedObject var vm:LoginSceneViewModel
     
     var body: some View {
-        ScrollView{
+//        ScrollView{
             VStack{
                
                 Text("Sign Up")
                     .font(.customfont(.semibold, fontSize: 26))
                     .foregroundColor(.primaryText)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    .padding(.bottom, 4)
+                    .padding(.vertical)
                 
                 Text("Enter your credentials to continue")
                     .font(.customfont(.semibold, fontSize: 16))
@@ -75,17 +75,17 @@ struct SignUpScene: View {
                             .foregroundColor(.primaryApp)
                             .onTapGesture {
                                 withAnimation(.spring){
-                                    vm.isLogin=true
+                                    vm.isLogin=0
                                 }
                             }
                     }
                 }
                 .padding(.top)
-            }
+//            }
         }
     }
 }
 
 #Preview {
-    SignUpScene(vm: LoginSceneViewModel())
+    SignUpView(vm: LoginSceneViewModel())
 }

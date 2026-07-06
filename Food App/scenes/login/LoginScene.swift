@@ -29,7 +29,7 @@ struct LoginScene: View {
                             .resizable()
                             .frame(width: 40,height: 40)
                         
-                        if vm.isLogin{
+                        if vm.isLogin==0{
                             
                             
                             VStack(spacing:16){
@@ -38,6 +38,17 @@ struct LoginScene: View {
                                 CustomTextField(text:$vm.emailLogin,isPassField: .constant(false) )
                                 
                                 CustomTextField(title:"Password",hint:"Enter your password",text:$vm.passLogin,isPassField: .constant(true) )
+                                
+                                HStack{
+                                    Button {
+                                        withAnimation(.spring){
+                                            vm.isLogin=2
+                                        }
+                                    } label: {
+                                        Text("Forget Password?")
+                                    }
+                                    Spacer()
+                                }
                                 
                                 CustomBTN {
                                     vm.login()
@@ -53,7 +64,7 @@ struct LoginScene: View {
                                         .foregroundColor(.primaryApp)
                                         .onTapGesture {
                                             withAnimation(.spring){
-                                                vm.isLogin=false
+                                                vm.isLogin=1
                                             }
                                         }
                                 }
@@ -61,11 +72,18 @@ struct LoginScene: View {
                                 Spacer()
                             }
                             
+                        }else if vm.isLogin==1{
+                            SignUpView(vm:vm)
+                            
+                        }else if vm.isLogin==2{
+                            ForgotPasswordView(vm:vm)
+                        }else if vm.isLogin==3{
+                            OTPView(vm:vm)
                         }else{
-                            SignUpScene(vm:vm)
-                                
+                            ForgotPasswordSetView(vm: vm)
                         }
-                        
+                      
+                        Spacer()
                     }
                     .padding()
                     if vm.isLoading{
@@ -74,7 +92,10 @@ struct LoginScene: View {
                 }
                 
             }
-            .navigationBarBackButtonHidden()
+            .navigationTitle("")
+            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
+            .ignoresSafeArea()
             .overlay(overlayView: Toasts.init(dataModel: Toasts.ToastDataModel.init(title: vm.alertMsg, image: "checkmark"), show: $vm.alert)
                      , show: $vm.alert)
             .alert(
@@ -107,7 +128,17 @@ extension LoginScene{
         HStack{
             Button {
                 withAnimation{
-                    mode.wrappedValue.dismiss()
+                    if vm.isLogin==4{
+                        vm.isLogin=3
+                    }else if vm.isLogin==3{
+                        vm.isLogin=2
+                    }else if vm.isLogin==2{
+                        vm.isLogin=0
+                    }else if vm.isLogin==1{
+                        vm.isLogin=0
+                    }else{
+                        mode.wrappedValue.dismiss()
+                    }
                 }
             } label: {
                 Image("back")

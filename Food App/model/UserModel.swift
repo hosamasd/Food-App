@@ -18,24 +18,42 @@ struct SignupPassModel:Codable {
     var password:String
     var dervice_token:String
 }
+struct ForgetPassModel:Codable {
+    var email:String
+//    var dervice_token:String
+}
+struct ForgetVerifyPassModel:Codable {
+    var email:String
+    var reset_code:Int
+    
+}
+struct ForgetVerifySetPassPassModel:Codable {
+    var user_id:Int
+        var new_password:String
+    var reset_code:Int
+}
+struct UpdateProfilePassModel:Codable {
+    var username,name,mobile,mobile_code:String
+}
 
 struct LoginResModel: Codable {
     var status:String?
     var message:String?
-
-    
     var payload: UserModel?
 }
 
+
 struct UserModel: Codable {
+    var user_id:Int? = 0
     
-    var id: Int = 0
-    var username: String = ""
-    var name: String = ""
-    var email: String = ""
-    var mobile: String = ""
-    var mobileCode: String = ""
-    var authToken: String = ""
+    var id: Int? = 0
+    var username: String?
+    var name: String?
+    var email: String?
+    var mobile: String?
+    var mobileCode: String?
+    var authToken: String? 
+    var reset_code:String? 
     
     enum CodingKeys: String, CodingKey {
         case mobileCode = "mobile_code"

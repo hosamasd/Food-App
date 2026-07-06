@@ -21,8 +21,33 @@ class FoodAPI {
     }
     
     func signUp(body:SignupPassModel)  async throws -> LoginResModel{
-        return try await Network.POST_JSON(route: .Login, body: body)
+        return try await Network.POST_JSON(route: .signup, body: body)
     }
+    
+    func updateProfile(body:UpdateProfilePassModel)  async throws -> LoginResModel{
+        return try await Network.POST_JSON(route: .updateProfile, body: body)
+    }
+    
+    func forget(body:ForgetPassModel)  async throws -> LoginResModel{
+        return try await Network.POST_JSON(route: .forget,auth:false, body: body)
+    }
+    
+    func forget_verfiy(body:ForgetVerifyPassModel)  async throws -> LoginResModel{
+        return try await Network.POST_JSON(route: .forget_verfiy,auth:false, body: body)
+    }
+    
+    func forget_verfiy_setPass(body:ForgetVerifySetPassPassModel)  async throws -> LoginResModel{
+        return try await Network.POST_JSON(route: .forgot_password_set_password,auth:false, body: body)
+    }
+    
+    func readAllNotification()  async throws -> LoginResModel{
+        return try await Network.POST(route: .readAllNotification, body: [:])
+    }
+    func getAllNotification()  async throws -> NotificationResModel{
+        return try await Network.POST(route: .getAllNotification, body: [:])
+    }
+    
+    
     
 //    func savePlanningVisit(body:VisitPlanSendRes) async throws -> VisitResModels {
 //        return try await Network.POST_JSON(route: .savePlanningVisit, body: body)

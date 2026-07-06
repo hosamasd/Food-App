@@ -10,13 +10,15 @@ import SwiftUI
 @main
 struct Food_AppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @AppStorage("isUserLogin") var isUserLogin: Bool = false
 
     var body: some Scene {
         WindowGroup {
             NavigationView{
 //                SignUpScene(vm: LoginSceneViewModel())
 //                SignInScene()
-                            LoginScene()
+                AccountScene()
+//                            LoginScene()
 //                WelcomeScene()
                     .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
                 

@@ -8,18 +8,25 @@
 import SwiftUI
 
 class LoginSceneViewModel: ObservableObject {
+    @AppStorage("isUserLogin") var isUserLogin: Bool = false
+
     @Published var isLoading=false
     @Published var alertMsg=""
     @Published var alert=false
-
-    
-    @Published var alertError=false
+        @Published var alertError=false
     
     @Published var emailLogin=""
     @Published var passLogin=""
-    @Published var isLogin=true
+    @Published var isLogin=0
 
     @Published var emailSignup=""
+    @Published var emailForget=""
+    @Published var resetCode=""
+    @Published var userId=0
+    @Published var new_password=""
+
+    
+
     @Published var username=""
     @Published var passSignup=""
     
@@ -30,8 +37,131 @@ class LoginSceneViewModel: ObservableObject {
     func getSignUp() -> SignupPassModel {
         return .init(username: username,email: emailLogin, password: passLogin, dervice_token: "")
     }
+    func getForget() -> ForgetPassModel {
+        return .init(email: emailForget)
+    }
+    func getForgetVerfiy() -> ForgetVerifyPassModel {
+        if let code=Int(resetCode){
+            return .init(email: emailForget, reset_code: code)
+        }
+        else{return .init(email: "", reset_code: 0)}
+    }
     
+    func getForgetVerfiySetPass() -> ForgetVerifySetPassPassModel {
+        if let code=Int(resetCode){
+            return .init(user_id:userId,new_password:new_password,reset_code:code)
+        }else{return .init(user_id:0,new_password:"",reset_code:0)}
+    }
     
+    func forgetVerifySetPass()  {
+        
+        if  !Reachability.isConnectedToNetwork(){
+        }else{
+            withAnimation{isLoading.toggle()}
+            
+            Task
+            {
+                do {
+                    
+                    let login = getForgetVerfiySetPass()
+                    
+                    let res: LoginResModel = try         await FoodAPI().forget_verfiy_setPass(body: login)
+                    
+                    Task{@MainActor in
+                        if let err=Int(res.status ?? "1"),err==0 {
+                            self.serverError(message: res.message)
+                        }else{
+                            isLoading=false
+                            self.isLogin=0
+                       }
+                   }
+                }
+                catch let error as Network.NetworkError
+                {
+                    showErro(error2: error)
+                    Task{@MainActor in
+                        isLoading=false
+                    }
+                }
+            }
+        }
+    }
+    
+    func forgetVerify()  {
+        if  !Reachability.isConnectedToNetwork(){
+        }else{
+            withAnimation{isLoading.toggle()}
+            
+            Task
+            {
+                do {
+                    
+                    let login = getForgetVerfiy()
+                    
+                    let res: LoginResModel = try         await FoodAPI().forget_verfiy(body: login)
+                    
+                    Task{@MainActor in
+                        if let err=Int(res.status ?? "1"),err==0 {
+                            self.serverError(message: res.message)
+                        }else{
+                            isLoading=false
+                            if let code = res.payload?.reset_code{
+                             resetCode=code
+                                self.isLogin=4
+                            }
+                       }
+                   }
+                }
+                catch let error as Network.NetworkError
+                {
+                    showErro(error2: error)
+                    Task{@MainActor in
+                        isLoading=false
+                    }
+                }
+            }
+        }
+    }
+    
+    func forget()  {
+        
+//                if(!emailForget.isValidEmail) {
+//                    self.alertMsg = "please enter valid email address"
+//                    self.alertError = true
+//                    return
+//                }
+                
+                if  !Reachability.isConnectedToNetwork(){
+                }else{
+                    withAnimation{isLoading.toggle()}
+                    
+                    Task
+                    {
+                        do {
+                            
+                            let login = getForget()
+                            
+                            let res: LoginResModel = try         await FoodAPI().forget(body: login)
+                            
+                            Task{@MainActor in
+                                if let err=Int(res.status ?? "1"),err==0 {
+                                    self.serverError(message: res.message)
+                                }else{
+                                    isLoading=false
+                                    self.isLogin=3
+                               }
+                           }
+                        }
+                        catch let error as Network.NetworkError
+                        {
+                            showErro(error2: error)
+                            Task{@MainActor in
+                                isLoading=false
+                            }
+                        }
+                    }
+                }
+    }
     
     func signUp()  {
 //        if(username.isEmpty ) {
@@ -72,6 +202,12 @@ class LoginSceneViewModel: ObservableObject {
                             self.serverError(message: res.message)
                         }else{
                             isLoading=false
+                            if let user=res.payload{
+                                let cacheUser: LocalJSONStore<UserModel> = LocalJSONStore(storageType: .cache, filename: "UserModel.json")
+                                cacheUser.save(user)
+                                 isUserLogin = true
+
+                            }
                         }
                         
                     }
@@ -120,6 +256,15 @@ class LoginSceneViewModel: ObservableObject {
                             self.serverError(message: res.message)
                         }else{
                             isLoading=false
+                            if let user=res.payload{
+                                let cacheUser: LocalJSONStore<UserModel> = LocalJSONStore(storageType: .cache, filename: "UserModel.json")
+                                let sec = UserModel(user_id: 8, id: 1, username: "username", name: "name", email: "a@a.com", mobile: "1001384592", mobileCode: "+2", authToken: "UserModel")
+                                
+//                                cacheUser.save(user)
+                                cacheUser.save(sec)
+
+                                isUserLogin = true
+                            }
                         }
                     }
                 }

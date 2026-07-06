@@ -31,7 +31,7 @@ struct WelcomeScene: View {
                         .padding(.bottom,60)
                     
                     NavigationLink {
-                        SignInScene()
+                        LoginScene()
                     } label: {
                         Text("Get Started")
                             .font(.customfont(.semibold, fontSize: 18))
