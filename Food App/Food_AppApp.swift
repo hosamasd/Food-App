@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct Food_AppApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView{
+//                SignUpScene(vm: LoginSceneViewModel())
+//                SignInScene()
+                            LoginScene()
+//                WelcomeScene()
+                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
+                
+            }
         }
     }
 }
