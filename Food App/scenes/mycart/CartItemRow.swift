@@ -40,7 +40,7 @@ struct CartItemRow: View {
                     }
                     
                     
-                    Text("\(cObj.unitValue)\(cObj.unitName), price")
+                    Text("\(String(describing: cObj.unitValue))\(String(describing: cObj.unitName)), price")
                         .font(.customfont(.medium, fontSize: 14))
                         .foregroundColor(.secondaryText)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -66,7 +66,7 @@ struct CartItemRow: View {
                             )
                         }
                         
-                        Text( "\(cObj.qty)" )
+                        Text( "\(String(describing: cObj.qty))" )
                             .font(.customfont(.bold, fontSize: 24))
                             .foregroundColor(.primaryText)
                             .multilineTextAlignment(.center)

@@ -97,8 +97,8 @@ struct MyCartScene: View {
                             }
                         }
                     
-                    CheckoutView(isShow: $vm.showCheckout, vm: vm )
-                        .transition(.opacity.combined(with: .move(edge: .bottom)))
+//                    CheckoutView(isShow: $vm.showCheckout, vm: vm )
+//                        .transition(.opacity.combined(with: .move(edge: .bottom)))
                 }
             }
             

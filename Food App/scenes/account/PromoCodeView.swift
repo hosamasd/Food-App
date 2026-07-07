@@ -51,7 +51,7 @@ struct PromoCodeView: View {
                                         .padding(.vertical, 8)
                                     
                                     
-                                    Text( pObj.endDate.displayDate(format: "yyyy-MM-dd hh:mm a") )
+                                    Text( pObj.endDate?.displayDate(format: "yyyy-MM-dd hh:mm a") ?? "")
                                         .font(.customfont(.bold, fontSize: 12))
                                         .foregroundColor(.secondaryText)
                                         .padding(.vertical, 8)
