@@ -47,6 +47,8 @@ class Network {
         public static var updateProfile = "update_profile"
         public static var readAllNotification = "notification_read_all"
         public static var getAllNotification = "notification_list"
+        public static var getMyOrders = "my_order"
+        public static var my_order_detail = "my_order_detail"
 
         
         
@@ -133,7 +135,8 @@ class Network {
         case updateProfile
         case readAllNotification
         case getAllNotification
-        
+        case getMyOrders
+        case my_order_detail
         
         case saveApprovalPlans
         case uploadVisitImages
@@ -201,7 +204,11 @@ class Network {
                 return Network.urlBase + APIs.readAllNotification
             case .getAllNotification:
                 return Network.urlBase + APIs.getAllNotification
-                
+            case .getMyOrders:
+                return Network.urlBase + APIs.getMyOrders
+            case .my_order_detail:
+                return Network.urlBase + APIs.my_order_detail
+
                 
             case .saveApprovalPlans:
                 return Network.urlBase + APIs.saveApprovalPlans

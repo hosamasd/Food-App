@@ -46,6 +46,14 @@ class FoodAPI {
     func getAllNotification()  async throws -> NotificationResModel{
         return try await Network.POST(route: .getAllNotification, body: [:])
     }
+    func getMyOrders()  async throws -> MyOrderResModel{
+        return try await Network.POST(route: .getMyOrders, body: [:])
+    }
+    
+    func my_order_detail(id:Int)  async throws -> MyOrderItemResModel{
+        return try await Network.POST(route: .my_order_detail, body: ["order_id":id])
+    }
+    
     
     
     
