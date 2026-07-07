@@ -1,48 +1,31 @@
 //
-//  AccountViewModel.swift
+//  PaymentMethodsViewModel.swift
 //  Food App
 //
-//  Created by hosam on 06/07/2026.
+//  Created by hosam on 07/07/2026.
 //
 
 import SwiftUI
 
-class AccountViewModel: ObservableObject {
-    @Published var currentUser=UserModel()
-    @AppStorage("isUserLogin") var isUserLogin: Bool = false
+class PaymentMethodsViewModel: ObservableObject {
     @Published var isLoading=false
     @Published var alertMsg=""
     @Published var alert=false
         @Published var alertError=false
-    @Published var isHome=true
-    @Published var isWriteReview=true
-
     
-    @Published var listArrNotification: [NotificationModel] = []
-
+    @Published var txtName: String = ""
+    @Published var txtCardNumber: String = ""
+    @Published var txtCardMonth: String = ""
+    @Published var txtCardYear: String = ""
     
+
+    @Published var listArr: [PaymentModel] = []
+
     init() {
-        let cacheUser: LocalJSONStore<UserModel> = LocalJSONStore(storageType: .cache, filename: "UserModel.json")
-        let sec = UserModel(user_id: 8, id: 1, username: "username", name: "name", email: "a@a.com", mobile: "1001384592", mobileCode: "+2", authToken: "8F9WIG9MwqcTJkpkRXrP")
-        
-//                                cacheUser.save(user)
-//        cacheUser.save(sec)
-        currentUser=sec//cacheUser.storedValue ?? UserModel()
-
-//        currentUser=cacheUser.storedValue ?? UserModel()
+        serviceCallList()
     }
     
-    func logout()  {
-        let cacheUser: LocalJSONStore<UserModel> = LocalJSONStore(storageType: .cache, filename: "UserModel.json")
-        cacheUser.deleteFile(cacheUser.storedValue ?? UserModel())
-        isUserLogin=false
-    }
-    
-    func getUpdate(name:String,username:String,mobile:String,mobile_code:String) -> UpdateProfilePassModel {
-        return .init(username: username, name: name, mobile: mobile, mobile_code: mobile_code)
-    }
-    
-    func getAllNotification()  {
+    func serviceCallList(){
         if  !Reachability.isConnectedToNetwork(){
         }else{
             withAnimation{isLoading.toggle()}
@@ -51,7 +34,8 @@ class AccountViewModel: ObservableObject {
             {
                 do {
                     
-                    let res: NotificationResModel = try         await FoodAPI().getAllNotification()
+                    
+                    let res: PaymentResModel = try         await FoodAPI().payment_method()
                     
                     Task{@MainActor in
                         if let err=Int(res.status ?? "0"),err==0 {
@@ -59,7 +43,7 @@ class AccountViewModel: ObservableObject {
                         }else{
                             isLoading=false
                             if let arr=res.payload{
-                                listArrNotification=arr
+                                self.listArr=arr
                             }
                         }
                     }
@@ -74,9 +58,8 @@ class AccountViewModel: ObservableObject {
             }
         }
     }
-
     
-    func readAllNotifications()  {
+    func removePayment(pObj: PaymentModel)  {
         if  !Reachability.isConnectedToNetwork(){
         }else{
             withAnimation{isLoading.toggle()}
@@ -85,14 +68,15 @@ class AccountViewModel: ObservableObject {
             {
                 do {
                     
-                    let res: LoginResModel = try         await FoodAPI().readAllNotification()
+                    
+                    let res: PaymentResModel = try         await FoodAPI().removePayment(id: pObj.id ?? 1)
                     
                     Task{@MainActor in
                         if let err=Int(res.status ?? "0"),err==0 {
                             self.serverError(message: res.message)
                         }else{
-                           getAllNotification()
-                            
+                            isLoading=false
+                            self.serviceCallList()
                         }
                     }
                 }
@@ -107,57 +91,79 @@ class AccountViewModel: ObservableObject {
         }
     }
     
-    func update(name:String,username:String,mobile:String,mobile_code:String)  {
-    //        if(!emailLogin.isValidEmail) {
-    //            self.alertMsg = "please enter valid email address"
-    //            self.alertError = true
-    //            return
-    //        }
-    //
-    //        if(passLogin.isEmpty ) {
-    //            self.alertMsg = "please enter valid password"
-    //            self.alertError = true
-    //            return
-    //        }
+    func getPayments() -> PaymentAddModel {
+        return .init(name: txtName,card_number: txtCardNumber, card_month: txtCardMonth, card_year: txtCardYear)
+    }
+    
+    func serviceCallAdd(didDone: ((  )->())? ) {
+        
+        if(txtName.isEmpty) {
+            alertMsg = "please enter name"
+            alertError = true
+            return
+        }
+        
+        if(txtCardNumber.count != 16) {
+            alertMsg = "please enter valid card number"
+            alertError = true
+            return
+        }
+        
+        
+        if(txtCardMonth.count != 2) {
+            alertMsg = "please enter valid card month"
+            alertError = true
+            return
+        }
+        
+        if(txtCardYear.count != 4) {
+            alertMsg = "please enter valid card year"
+            alertError = true
+            return
+        }
+        
+        if  !Reachability.isConnectedToNetwork(){
+        }else{
+            withAnimation{isLoading.toggle()}
             
-            if  !Reachability.isConnectedToNetwork(){
-            }else{
-                withAnimation{isLoading.toggle()}
-                
-                Task
-                {
-                    do {
-                        
-                        var login = getUpdate(name:name,username:username,mobile: mobile,mobile_code: mobile_code)
-                        
-                        
-                        
-                        let res: LoginResModel = try         await FoodAPI().updateProfile(body: login)
-                        
-                        Task{@MainActor in
-                            if let err=Int(res.status ?? "0"),err==0 {
-                                self.serverError(message: res.message)
-                            }else{
-                                isLoading=false
-                                if let arr=res.payload{
-                                    let cacheUser: LocalJSONStore<UserModel> = LocalJSONStore(storageType: .cache, filename: "UserModel.json")
-                                    cacheUser.save(arr)
-                                    isHome=true
-                                }
-                            }
-                        }
-                    }
-                    catch let error as Network.NetworkError
-                    {
-                        showErro(error2: error)
-                        Task{@MainActor in
+            Task
+            {
+                do {
+                    let payment = getPayments()
+
+                    
+                    let res: PaymentResModel = try         await FoodAPI().addPayment(body:payment)
+                    
+                    Task{@MainActor in
+                        if let err=Int(res.status ?? "0"),err==0 {
+                            self.serverError(message: res.message)
+                        }else{
                             isLoading=false
+                            self.clearAll()
+                            self.serviceCallList()
+                            didDone?( )
                         }
                     }
                 }
+                catch let error as Network.NetworkError
+                {
+                    showErro(error2: error)
+                    Task{@MainActor in
+                        isLoading=false
+                    }
+                }
             }
+        }
         
     }
+    func clearAll(){
+        txtName = ""
+        txtCardNumber = ""
+        txtCardYear = ""
+        txtCardMonth = ""
+        
+    }
+    
     
     func serverError(message:String?)  {
         self.alertMsg=message ?? ""

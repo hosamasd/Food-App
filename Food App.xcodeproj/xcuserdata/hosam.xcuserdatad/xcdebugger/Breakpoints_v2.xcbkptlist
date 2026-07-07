@@ -30,8 +30,8 @@
             filePath = "Food App/network/Network.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "702"
-            endingLineNumber = "702"
+            startingLineNumber = "732"
+            endingLineNumber = "732"
             landmarkName = "POST_JSON(route:auth:body:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "Food App/network/Network.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "697"
-            endingLineNumber = "697"
+            startingLineNumber = "727"
+            endingLineNumber = "727"
             landmarkName = "POST_JSON(route:auth:body:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "Food App/network/Network.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "451"
-            endingLineNumber = "451"
+            startingLineNumber = "481"
+            endingLineNumber = "481"
             landmarkName = "makeResponse(data:urlResponse:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "Food App/network/Network.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "462"
-            endingLineNumber = "462"
+            startingLineNumber = "492"
+            endingLineNumber = "492"
             landmarkName = "makeResponse(data:urlResponse:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "Food App/network/Network.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
+            startingLineNumber = "425"
+            endingLineNumber = "425"
             landmarkName = "makeRequest(route:method:auth:isPut:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "Food App/network/Network.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
+            startingLineNumber = "389"
+            endingLineNumber = "389"
             landmarkName = "makeRequest(route:method:auth:isPut:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "Food App/network/Network.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "360"
-            endingLineNumber = "360"
+            startingLineNumber = "390"
+            endingLineNumber = "390"
             landmarkName = "makeRequest(route:method:auth:isPut:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -309,22 +309,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4BE12703-8F6C-419B-9AB3-9438E87BDCE6"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Food App/viewmodel/AccountViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
-            landmarkName = "update(name:username:mobile:mobile_code:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "9C44596D-7AE4-4DE8-8C91-B646E6D51C80"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -402,7 +386,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "A703DA78-5FDB-4F64-B24D-6E25D1F15C87 - 602618d305a3f3de"
+                  uuid = "A703DA78-5FDB-4F64-B24D-6E25D1F15C87 - 602618d305a3f3f1"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -412,22 +396,8 @@
                   urlString = "file:///Users/hosam/Documents/swiftui%20thinking/Food%20App/Food%20App/viewmodel/AccountViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "137"
-                  endingLineNumber = "137">
-               </Location>
-               <Location
-                  uuid = "A703DA78-5FDB-4F64-B24D-6E25D1F15C87 - 602618d305a3f3de"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for closure #1 @Swift.MainActor () async -&gt; () in closure #2 () async throws -&gt; () in Food_App.AccountViewModel.update(name: Swift.String, username: Swift.String, mobile: Swift.String, mobile_code: Swift.String) -&gt; ()"
-                  moduleName = "Food App.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hosam/Documents/swiftui%20thinking/Food%20App/Food%20App/viewmodel/AccountViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "137"
-                  endingLineNumber = "137">
+                  startingLineNumber = "138"
+                  endingLineNumber = "138">
                </Location>
                <Location
                   uuid = "A703DA78-5FDB-4F64-B24D-6E25D1F15C87 - 602618d305a3f3f1"

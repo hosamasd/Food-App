@@ -20,7 +20,7 @@ struct MyOrdersView: View {
                             myObj in
                             
                             NavigationLink {
-                                MyOrdersDetailView(detailVM: MyOrderDetailViewModel(prodObj: myObj),vm:vm )
+                                MyOrdersDetailView(prodObj: myObj,vm:vm )
                             } label: {
                                 MyOrderCellView(myObj:myObj)
                                 

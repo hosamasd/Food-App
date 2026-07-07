@@ -40,6 +40,24 @@ class FoodAPI {
         return try await Network.POST_JSON(route: .forgot_password_set_password,auth:false, body: body)
     }
     
+   
+    
+    func getAddress()  async throws -> AddressResModel{
+        return try await Network.POST(route: .getAddress, body: [:])
+    }
+    
+    func removeAddress(id:Int)  async throws -> AddressResModel{
+        return try await Network.POST(route: .deleteAddres, body: ["address_id":id])
+    }
+    
+    func addAddres(body:AddressSendModel)  async throws -> AddressResModel{
+        return try await Network.POST_JSON(route: .addAddres,auth:false, body: body)
+    }
+    
+    func updateAddres(body:AddressSendModel)  async throws -> AddressResModel{
+        return try await Network.POST_JSON(route: .updateAddres,auth:false, body: body)
+    }
+    
     func readAllNotification()  async throws -> LoginResModel{
         return try await Network.POST(route: .readAllNotification, body: [:])
     }
@@ -49,9 +67,18 @@ class FoodAPI {
     func getMyOrders()  async throws -> MyOrderResModel{
         return try await Network.POST(route: .getMyOrders, body: [:])
     }
+    func payment_method()  async throws -> PaymentResModel{
+        return try await Network.POST(route: .payment_method, body: [:])
+    }
+    func addPayment(body:PaymentAddModel)  async throws -> PaymentResModel{
+        return try await Network.POST_JSON(route: .addPayment, body: body)
+    }
     
     func my_order_detail(id:Int)  async throws -> MyOrderItemResModel{
         return try await Network.POST(route: .my_order_detail, body: ["order_id":id])
+    }
+    func removePayment(id:Int)  async throws -> PaymentResModel{
+        return try await Network.POST(route: .removePayment, body: ["pay_id":id])
     }
     
     

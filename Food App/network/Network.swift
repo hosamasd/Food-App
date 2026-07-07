@@ -49,6 +49,13 @@ class Network {
         public static var getAllNotification = "notification_list"
         public static var getMyOrders = "my_order"
         public static var my_order_detail = "my_order_detail"
+        public static var payment_method = "payment_method"
+        public static var removePayment = "remove_payment_method"
+        public static var addPayment = "add_payment_method"
+        public static var getAddress = "delivery_address"
+        public static var addAddres = "add_delivery_address"
+        public static var updateAddres = "update_delivery_address"
+        public static var deleteAddres = "delete_delivery_address"
 
         
         
@@ -137,6 +144,14 @@ class Network {
         case getAllNotification
         case getMyOrders
         case my_order_detail
+        case payment_method
+        case removePayment
+        case addPayment
+        case getAddress
+        case addAddres
+        case updateAddres
+        case deleteAddres
+        
         
         case saveApprovalPlans
         case uploadVisitImages
@@ -208,7 +223,22 @@ class Network {
                 return Network.urlBase + APIs.getMyOrders
             case .my_order_detail:
                 return Network.urlBase + APIs.my_order_detail
-
+            case .payment_method:
+                return Network.urlBase + APIs.payment_method
+            case .removePayment:
+                return Network.urlBase + APIs.removePayment
+            case .addPayment:
+                return Network.urlBase + APIs.addPayment
+            case .getAddress:
+                return Network.urlBase + APIs.getAddress
+            case .deleteAddres:
+                return Network.urlBase + APIs.deleteAddres
+            case .updateAddres:
+                return Network.urlBase + APIs.updateAddres
+            case .addAddres:
+                return Network.urlBase + APIs.addAddres
+                
+                
                 
             case .saveApprovalPlans:
                 return Network.urlBase + APIs.saveApprovalPlans
