@@ -40,6 +40,7 @@ struct LoginResModel: Codable {
     var status:String?
     var message:String?
     var payload: UserModel?
+    
 }
 
 

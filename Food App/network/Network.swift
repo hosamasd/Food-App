@@ -56,6 +56,12 @@ class Network {
         public static var addAddres = "add_delivery_address"
         public static var updateAddres = "update_delivery_address"
         public static var deleteAddres = "delete_delivery_address"
+        public static var cart_list = "cart_list"
+        public static var add_to_cart = "add_to_cart"
+        public static var removeFromCart = "remove_cart"
+        public static var orderPlace = "order_place"
+        public static var updateQty = "update_cart"
+        public static var getPromoCode = "promo_code_list"
 
         
         
@@ -151,6 +157,12 @@ class Network {
         case addAddres
         case updateAddres
         case deleteAddres
+        case cart_list
+        case add_to_cart
+        case removeFromCart
+        case orderPlace
+        case updateQty
+        case getPromoCode
         
         
         case saveApprovalPlans
@@ -237,7 +249,18 @@ class Network {
                 return Network.urlBase + APIs.updateAddres
             case .addAddres:
                 return Network.urlBase + APIs.addAddres
-                
+            case .cart_list:
+                return Network.urlBase + APIs.cart_list
+            case .add_to_cart:
+                return Network.urlBase + APIs.add_to_cart
+            case .removeFromCart:
+                return Network.urlBase + APIs.removeFromCart
+            case .orderPlace:
+                return Network.urlBase + APIs.orderPlace
+            case .updateQty:
+                return Network.urlBase + APIs.updateQty
+            case .getPromoCode:
+                return Network.urlBase + APIs.getPromoCode
                 
                 
             case .saveApprovalPlans:

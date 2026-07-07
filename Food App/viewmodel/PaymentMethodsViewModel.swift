@@ -22,7 +22,7 @@ class PaymentMethodsViewModel: ObservableObject {
     @Published var listArr: [PaymentModel] = []
 
     init() {
-        serviceCallList()
+//        serviceCallList()
     }
     
     func serviceCallList(){

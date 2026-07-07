@@ -17,8 +17,9 @@ struct AddressResModel: Codable {
     var status:String?
     var message:String?
     var payload: [AddressModel]?
+
 }
-struct AddressModel: Identifiable, Codable {
+struct AddressModel:  Codable {
     
     var id: Int? = 0
     var name: String? = ""

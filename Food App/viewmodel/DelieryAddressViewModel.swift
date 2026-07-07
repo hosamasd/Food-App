@@ -58,7 +58,7 @@ class DelieryAddressViewModel: ObservableObject {
         }
     }
     
-    func updateAddress(address:AddressModel?, didDone: (( )->())?)  {
+    func updateAddres(address:AddressModel?, didDone: (( )->())?)  {
         if  !Reachability.isConnectedToNetwork(){
          }else{
              withAnimation{isLoading.toggle()}
@@ -75,7 +75,7 @@ class DelieryAddressViewModel: ObservableObject {
                          if let err=Int(res.status ?? "1"),err==0 {
                              self.serverError(message: res.message)
                          }else{
-                             isLoading=false
+//                             isLoading=false
                              self.clearAll()
                              self.serviceCallList()
                              didDone?( )

@@ -19,7 +19,7 @@ struct MyOrdersDetailView: View {
                     
                     VStack{
                         HStack{
-                            Text("Order ID: # \( prodObj.id )")
+                            Text("Order ID: # \( String(describing: prodObj.id) )")
                                 .font(.customfont(.bold, fontSize: 20))
                                 .foregroundColor(.primaryText)
                             
@@ -44,7 +44,7 @@ struct MyOrdersDetailView: View {
                         }
                         .padding(.bottom, 8)
                         
-                        Text("\(prodObj.address),\(prodObj.city), \(prodObj.state), \(prodObj.postalCode) ")
+                        Text("\(String(describing: prodObj.address)),\(String(describing: prodObj.city)), \(String(describing: prodObj.state)), \(String(describing: prodObj.postalCode)) ")
                             .font(.customfont(.regular, fontSize: 16))
                             .foregroundColor(.secondaryText)
                             .multilineTextAlignment( .leading)

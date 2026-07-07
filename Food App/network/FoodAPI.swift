@@ -40,10 +40,37 @@ class FoodAPI {
         return try await Network.POST_JSON(route: .forgot_password_set_password,auth:false, body: body)
     }
     
-   
+    func getCarList(promo_code_id:Int,delivery_type:Int) async throws -> CartResModel {
+            return try await Network.POST(route: .cart_list, body: ["promo_code_id":promo_code_id,"delivery_type":delivery_type])
+        }
+    
+
+    func orderPlace(address_id:String,deliver_type:Int,payment_type:Int,pay_id:String,promo_code_id:Int) async throws -> CartResModel {
+        return try await Network.POST(route: .orderPlace, body: ["address_id":address_id,"deliver_type":deliver_type,"payment_type":payment_type,"pay_id":pay_id,"promo_code_id":promo_code_id])
+    }
+
+
+
+
+func removeFromCart(cart_id:Int,prod_id:Int) async throws -> CartResModel {
+        return try await Network.POST(route: .removeFromCart, body: ["cart_id":cart_id,"prod_id":prod_id])
+    }
+
+    func addToCart(prod_id:Int,qty:Int) async throws -> CartResModel {
+            return try await Network.POST(route: .add_to_cart, body: ["prod_id":prod_id,"qty":qty])
+        }
+    func updateQty(cart_id:Int,prod_id:Int,new_qty:Int) async throws -> CartResModel {
+        return try await Network.POST(route: .updateQty, body: ["cart_id":cart_id,"prod_id":prod_id,"new_qty":new_qty])
+        }
+    
+    
     
     func getAddress()  async throws -> AddressResModel{
         return try await Network.POST(route: .getAddress, body: [:])
+    }
+    
+    func getPromoCode()  async throws -> PromoResModel{
+        return try await Network.POST(route: .getPromoCode, body: [:])
     }
     
     func removeAddress(id:Int)  async throws -> AddressResModel{
