@@ -69,6 +69,19 @@ func removeFromCart(cart_id:Int,prod_id:Int) async throws -> CartResModel {
         return try await Network.POST(route: .getAddress, body: [:])
     }
     
+    func exploreList()  async throws -> ExploreCategoryResModel{
+        return try await Network.POST(route: .exploreList, body: [:])
+    }
+    
+    func getProdcts(cat_id:Int)  async throws -> ProductResModel{
+        return try await Network.POST(route: .getProdcts, body: ["cat_id":cat_id])
+    }
+    
+    func addRemoveFav(prod_id:Int)  async throws -> ProductResModel{
+        return try await Network.POST(route: .addRemoveFav, body: ["prod_id":prod_id])
+    }
+    
+    
     func getPromoCode()  async throws -> PromoResModel{
         return try await Network.POST(route: .getPromoCode, body: [:])
     }
@@ -91,6 +104,10 @@ func removeFromCart(cart_id:Int,prod_id:Int) async throws -> CartResModel {
     func getAllNotification()  async throws -> NotificationResModel{
         return try await Network.POST(route: .getAllNotification, body: [:])
     }
+    func getFavorites()  async throws -> ProductResModel{
+        return try await Network.POST(route: .getFavorites, body: [:])
+    }
+    
     func getMyOrders()  async throws -> MyOrderResModel{
         return try await Network.POST(route: .getMyOrders, body: [:])
     }

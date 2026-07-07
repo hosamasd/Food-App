@@ -14,6 +14,9 @@ struct NotificationView: View {
     var body: some View {
         ZStack{
             ZStack{
+                if(vm.listArrNotification.count == 0) {
+                    EmptyView(text: "no data founded")
+                }
                 
                 ScrollView{
                     LazyVStack(spacing: 15) {

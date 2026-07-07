@@ -62,6 +62,10 @@ class Network {
         public static var orderPlace = "order_place"
         public static var updateQty = "update_cart"
         public static var getPromoCode = "promo_code_list"
+        public static var exploreList = "explore_category_list"
+        public static var getProdcts = "explore_category_items_list"
+        public static var addRemoveFav = "add_remove_favorite"
+        public static var getFavorites = "favorite_list"
 
         
         
@@ -163,7 +167,10 @@ class Network {
         case orderPlace
         case updateQty
         case getPromoCode
-        
+        case exploreList
+        case getProdcts
+        case addRemoveFav
+        case getFavorites
         
         case saveApprovalPlans
         case uploadVisitImages
@@ -261,6 +268,14 @@ class Network {
                 return Network.urlBase + APIs.updateQty
             case .getPromoCode:
                 return Network.urlBase + APIs.getPromoCode
+            case .exploreList:
+                return Network.urlBase + APIs.exploreList
+            case .getProdcts:
+                return Network.urlBase + APIs.getProdcts
+            case .addRemoveFav:
+                return Network.urlBase + APIs.addRemoveFav
+            case .getFavorites:
+                return Network.urlBase + APIs.getFavorites
                 
                 
             case .saveApprovalPlans:

@@ -13,7 +13,9 @@ struct MyOrdersView: View {
     var body: some View {
         ZStack{
             ZStack{
-                
+                if(vm.listArr.count == 0) {
+                    EmptyView(text: "no data founded")
+                }
                 ScrollView{
                     LazyVStack(spacing: 15) {
                         ForEach( vm.listArr , id: \.id, content: {

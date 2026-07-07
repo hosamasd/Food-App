@@ -17,7 +17,8 @@ struct Food_AppApp: App {
             NavigationView{
 //                SignUpScene(vm: LoginSceneViewModel())
 //                SignInScene()
-                AccountScene()
+//                AccountScene()
+                MainTabScene()
 //                            LoginScene()
 //                WelcomeScene()
                     .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)

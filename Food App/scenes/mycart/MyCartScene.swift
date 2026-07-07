@@ -15,8 +15,7 @@ struct MyCartScene: View {
             
             ZStack{
                 if(vm.listArr.count == 0) {
-                    Text("You Card is Empty")
-                        .font(.customfont(.bold, fontSize: 20))
+                    EmptyView()
                 }
                 
                 ScrollView{
