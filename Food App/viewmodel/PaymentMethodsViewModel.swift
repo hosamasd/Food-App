@@ -22,7 +22,7 @@ class PaymentMethodsViewModel: ObservableObject {
     @Published var listArr: [PaymentModel] = []
 
     init() {
-//        serviceCallList()
+        serviceCallList()
     }
     
     func serviceCallList(){
@@ -69,7 +69,7 @@ class PaymentMethodsViewModel: ObservableObject {
                 do {
                     
                     
-                    let res: PaymentResModel = try         await FoodAPI().removePayment(id: pObj.id ?? 1)
+                    let res: PaymentResModel = try         await FoodAPI().removePayment(id: pObj.pay_id ?? 1)
                     
                     Task{@MainActor in
                         if let err=Int(res.status ?? "0"),err==0 {

@@ -91,7 +91,7 @@ class ExploreViewModel: ObservableObject {
         }
     }
     
-    func serviceCallAddRemoveFav(pObj:ProductModel)  {
+    func serviceCallAddRemoveFav(pObj:ProductModel,isFromDetails:Bool=false)  {
         if  !Reachability.isConnectedToNetwork(){
          }else{
              withAnimation{isLoading.toggle()}
@@ -106,8 +106,12 @@ class ExploreViewModel: ObservableObject {
                              self.serverError(message: res.message)
                          }else{
                              isLoading=false
-                             if let arr=res.payload{
-                                 self.listProductArr=arr
+                             if isFromDetails{
+                                 isFav = !isFav
+                             }else{
+                                 if let arr=res.payload{
+                                     self.listProductArr=arr
+                                 }
                              }
 
                         }
@@ -134,18 +138,15 @@ class ExploreViewModel: ObservableObject {
              Task
              {
                  do {
-                     let res: ProductResModel = try         await FoodAPI().getProdcts(cat_id: cObj.id ?? 1 )
+                     let res: ProductResModel = try         await FoodAPI().getProdcts(cat_id: cObj.cat_id ?? 1 )
                      
                      Task{@MainActor in
                          if let err=Int(res.status ?? "0"),err==0 {
                              self.serverError(message: res.message)
                          }else{
-//                             isLoading=false
-                             self.isFav = !self.isFav
-                             self.serviceCallList()
+                             self.isLoading=false
+                             self.listProductArr=res.payload ?? []
                              
-                             self.alertMsg = res.message ?? "Done"
-                             self.alertError = true
 
                         }
                     }

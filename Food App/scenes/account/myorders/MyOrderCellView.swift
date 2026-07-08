@@ -18,12 +18,12 @@ struct MyOrderCellView: View {
                     .font(.customfont(.bold, fontSize: 16))
                     .foregroundColor(.primaryText)
                 
-                
-                Text("\( String(describing: myObj.id)  )")
-                    .font(.customfont(.bold, fontSize: 14))
-                    .foregroundColor(.primaryText)
-                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                
+                if let id=myObj.order_id{
+                    Text("\(id)")
+                        .font(.customfont(.bold, fontSize: 14))
+                        .foregroundColor(.primaryText)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                }
                 
                 Text(getOrderStatus(mObj: myObj))
                     .font(.customfont(.bold, fontSize: 16))
@@ -31,7 +31,7 @@ struct MyOrderCellView: View {
                 
             }
             
-            Text(myObj.createdDate?.displayDate(format: "yyyy-MM-dd hh:mm a") ?? "")
+            Text(formatDate(myObj.createdDate ?? ""))//myObj.createdDate?.displayDate(format: "yyyy-MM-dd hh:mm a") ?? "")
                 .font(.customfont(.bold, fontSize: 12))
                 .foregroundColor(.secondaryText)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -40,7 +40,7 @@ struct MyOrderCellView: View {
             
             HStack {
                 
-                if let imgageUrl = myObj.images?.first {
+                if let imgageUrl = myObj.images {
                     CacheAsyncImage(
                         url: URL(string: imgageUrl ) ?? URL(fileURLWithPath: "")
                     ) { phase in
@@ -124,6 +124,8 @@ struct MyOrderCellView: View {
             
         }
     }
+    
+   
     
     func getOrderStatus(mObj: MyOrderModel) -> String {
         switch mObj.orderStatus {

@@ -27,6 +27,7 @@ struct PromoCodeModel: Codable {
     var offerPrice: Double? = 0.0
     
     enum CodingKeys: String, CodingKey {
+        case code,title,type,description
         case maxDiscountAmount = "max_discount_amount"
         case offerPrice = "offer_price"
         case minOrderAmount = "min_order_amount"

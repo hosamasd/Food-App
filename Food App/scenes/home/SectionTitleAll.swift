@@ -11,6 +11,7 @@ struct SectionTitleAll: View {
     @State var title: String = " Title"
     @State var titleAll: String = "View All"
     var didTap : (()->())?
+    @Namespace private var animation
     
     var body: some View {
         
@@ -18,7 +19,8 @@ struct SectionTitleAll: View {
             Text(title)
                 .font(.customfont(.semibold, fontSize: 24))
                 .foregroundColor(.primaryText)
-            
+                .matchedGeometryEffect(     id: title,
+                                            in: animation )
             Spacer()
             
             Text(titleAll)

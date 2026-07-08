@@ -19,6 +19,41 @@ class FavoriteViewModel: ObservableObject {
         serviceCallList()
     }
     
+    func addToCart(prodId: Int, qty: Int, didDone: ((_ isDone: Bool,_ message: String  )->())?)  {
+        if  !Reachability.isConnectedToNetwork(){
+         }else{
+             withAnimation{isLoading.toggle()}
+             
+             Task
+             {
+                 do {
+                     let res: CartResModel = try         await FoodAPI().addToCart(prod_id: prodId, qty: qty)
+                     
+                     Task{@MainActor in
+                         if let err=Int(res.status ?? "1"),err==0 {
+                             didDone?(true, res.message ?? "Done" )
+
+                         }else{
+                             isLoading=false
+                             didDone?(false, res.message ?? "Fail" )
+
+                        }
+                    }
+                 }
+                 catch let error as Network.NetworkError
+                 {
+                     showErro(error2: error)
+                     Task{@MainActor in
+                         isLoading=false
+                         didDone?(false, error.localizedDescription ?? "Fail" )
+
+                     }
+                 }
+             }
+         }
+    }
+
+    
     func serviceCallList(){
         if  !Reachability.isConnectedToNetwork(){
         }else{

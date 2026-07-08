@@ -19,10 +19,11 @@ struct MyOrdersDetailView: View {
                     
                     VStack{
                         HStack{
-                            Text("Order ID: # \( String(describing: prodObj.id) )")
-                                .font(.customfont(.bold, fontSize: 20))
-                                .foregroundColor(.primaryText)
-                            
+                            if let orderid=prodObj.order_id{
+                                Text("Order ID: #  \(orderid) ")
+                                    .font(.customfont(.bold, fontSize: 20))
+                                    .foregroundColor(.primaryText)
+                            }
                             Spacer()
                             
                             Text( getPaymentStatus(mObj: prodObj )  )
@@ -32,7 +33,7 @@ struct MyOrdersDetailView: View {
                         
                         
                         HStack{
-                            Text(prodObj.createdDate?.displayDate(format: "yyyy-MM-dd hh:mm a") ?? "")
+                            Text(formatDate(prodObj.createdDate ?? ""))
                                 .font(.customfont(.regular, fontSize: 12))
                                 .foregroundColor(.secondaryText)
                             
@@ -44,13 +45,14 @@ struct MyOrdersDetailView: View {
                         }
                         .padding(.bottom, 8)
                         
-                        Text("\(String(describing: prodObj.address)),\(String(describing: prodObj.city)), \(String(describing: prodObj.state)), \(String(describing: prodObj.postalCode)) ")
-                            .font(.customfont(.regular, fontSize: 16))
-                            .foregroundColor(.secondaryText)
-                            .multilineTextAlignment( .leading)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            .padding(.bottom, 8)
-                        
+                        if let address = prodObj.address,let state = prodObj.state,let postalCode = prodObj.postalCode,let city = prodObj.city{
+                            Text(address+" - "+city+" - "+state+" - "+postalCode)
+                                .font(.customfont(.regular, fontSize: 16))
+                                .foregroundColor(.secondaryText)
+                                .multilineTextAlignment( .leading)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                .padding(.bottom, 8)
+                        }
                         HStack{
                             Text("Delivery Type:")
                                 .font(.customfont(.medium, fontSize: 16))
@@ -85,13 +87,15 @@ struct MyOrdersDetailView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, .topInsets + 46)
                     
-//                    LazyVStack {
-//                        ForEach(detailVM.listArr, id: \.id) { pObj in
-//                            OrderItemRow(pObj: pObj, showReviewBotton: prodObj.orderStatus == 3 && pObj.rating == 0) {
-//                                showWriteReview = true
-//                            }
-//                        }
-//                    }
+                    LazyVStack {
+                        ForEach (vm.listArrItems.indices, id: \.self) { pObj in
+                            
+//
+                            OrderItemRow(pObj: vm.listArrItems[pObj], showReviewBotton: prodObj.orderStatus == 3  && Int(vm.listArrItems[pObj].rating ?? "0") == 0) {
+                                showWriteReview = true
+                            }
+                        }
+                    }
                     
                     VStack{
                                            
@@ -115,7 +119,9 @@ struct MyOrdersDetailView: View {
                             
                             Spacer()
                             
-                            Text( "+ $\( prodObj.deliverPrice ?? 0.0, specifier: "%.2f" )"  )
+                            Text( "+ $\( prodObj.deliverPrice ?? 0)")
+//                            Text( "+ $\( prodObj.deliverPrice ?? 0.0, specifier: "%.2f" )"  )
+
                                 .font(.customfont(.medium, fontSize: 18))
                                 .foregroundColor( .primaryText )
                         }
@@ -127,8 +133,9 @@ struct MyOrdersDetailView: View {
                                 .foregroundColor(.primaryText)
                             
                             Spacer()
-                            
-                            Text( "- $\( prodObj.discountPrice ?? 0.0, specifier: "%.2f" )"  )
+                            Text( "- $\( prodObj.discountPrice ?? 0)")
+
+//                            Text( "- $\( prodObj.discountPrice ?? 0.0, specifier: "%.2f" )"  )
                                 .font(.customfont(.medium, fontSize: 18))
                                 .foregroundColor( .red )
                         }
@@ -168,7 +175,7 @@ struct MyOrdersDetailView: View {
             }
         }
         .onAppear {
-            vm.getOrderById(id: prodObj.id ?? 1)
+            vm.getOrderById(id: prodObj.order_id ?? 1)
         }
         .background( NavigationLink(destination: WriteReviewView(), isActive: $showWriteReview, label: {
             EmptyView()

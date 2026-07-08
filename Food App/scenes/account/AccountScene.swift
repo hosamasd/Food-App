@@ -60,11 +60,11 @@ struct AccountScene: View {
                                 }
                                 
                                 
-                                                            NavigationLink {
-                                                                MyDetailsView(vm:vm)
-                                                            } label: {
-                                                                AccountRow(title: "My Details", icon: "a_my_detail")
-                                                            }
+                                //                                                            NavigationLink {
+                                //                                                                MyDetailsView(vm:vm)
+                                //                                                            } label: {
+                                //                                                                AccountRow(title: "My Details", icon: "a_my_detail")
+                                //                                                            }
                                 
                                 Button {
                                     vm.isHome=false
@@ -74,11 +74,11 @@ struct AccountScene: View {
                                 
                                 
                                 
-//                                NavigationLink {
-//                                    DelieryAddressView()
-//                                } label: {
-//                                    AccountRow(title: "Delivery Address", icon: "a_delivery_address")
-//                                }
+                                NavigationLink {
+                                    DelieryAddressView()
+                                } label: {
+                                    AccountRow(title: "Delivery Address", icon: "a_delivery_address")
+                                }
                                 
                                 
                                 NavigationLink {
@@ -92,7 +92,7 @@ struct AccountScene: View {
                                 } label: {
                                     AccountRow(title: "Promo Code", icon: "a_promocode")
                                 }
-                           }
+                            }
                             VStack{
                                 NavigationLink {
                                     NotificationView(vm: vm)

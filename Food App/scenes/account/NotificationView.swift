@@ -15,7 +15,7 @@ struct NotificationView: View {
         ZStack{
             ZStack{
                 if(vm.listArrNotification.count == 0) {
-                    EmptyView(text: "no data founded")
+                    EmptyViews(text: "no data founded")
                 }
                 
                 ScrollView{
@@ -31,7 +31,7 @@ struct NotificationView: View {
                                         .foregroundColor(.primaryText)
                                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                     
-                                    if let date=nObj.createdDate{
+                                    if let date=nObj.created_date{
                                         Text(date.displayDate(format: "yyyy-MM-dd hh:mm a"))
                                             .font(.customfont(.regular, fontSize: 12))
                                             .foregroundColor(.secondaryText)
@@ -49,7 +49,7 @@ struct NotificationView: View {
                                 }
                              
                             .padding(15)
-                            .background( nObj.isRead == 1 ? Color.placeholder : Color.white)
+                            .background( nObj.is_read == 1 ? Color.placeholder : Color.white)
                             .cornerRadius(5)
                             .shadow(color: Color.black.opacity(0.15), radius: 2)
                            

@@ -11,8 +11,11 @@ struct ProductCell: View {
     @ObservedObject var vm:ExploreViewModel
     @State var pObj: ProductModel = ProductModel()
     @State var width:Double = 180.0
+    var isFull=false
     var didAddCart: ( ()->() )?
     
+    @Namespace private var animation
+
     
     var body: some View {
         NavigationLink {
@@ -34,7 +37,18 @@ struct ProductCell: View {
 //                                .transition(.fade(duration: 0.5))
                                 .scaledToFit()
                                 .frame(width: 100, height: 80)
-                    @unknown default:
+                                .matchedGeometryEffect(
+                                                              id: pObj.image ?? "",
+                                                              in: animation
+                                                          )
+                        case .failure(_):
+                            Image("bakery_snacks")
+                                .resizable()
+//                                .indicator(.activity) // Activity Indicator
+//                                .transition(.fade(duration: 0.5))
+                                .scaledToFit()
+                                .frame(width: 100, height: 80)
+                        @unknown default:
                         fatalError()
                     }
                 }
@@ -46,11 +60,14 @@ struct ProductCell: View {
                     .foregroundColor(.primaryText)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 
-                Text("\(String(describing: pObj.unitValue))\(String(describing: pObj.unitName)), price")
+                if let unitValue=pObj.unitValue,let unitName=pObj.unitName{
+                    Text(unitValue+unitName+", price")
+               
+//                Text("\(String(describing: pObj.unitValue))\(String(describing: pObj.unitName)), price")
                     .font(.customfont(.medium, fontSize: 14))
                     .foregroundColor(.secondaryText)
                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                
+                }
                 Spacer()
                 
                 HStack{
@@ -79,7 +96,7 @@ struct ProductCell: View {
                 
             }
             .padding(15)
-            .frame(width: width, height: 230)
+            .frame(width:isFull ? getFrameSize().width-24 : width, height: 230)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(  Color.placeholder.opacity(0.5), lineWidth: 1)

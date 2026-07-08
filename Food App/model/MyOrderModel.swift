@@ -14,11 +14,13 @@ struct MyOrderResModel: Codable {
 }
 struct MyOrderModel: Codable {
         var id: Int? = 0
-        var cartId: Int? = 0
+    var order_id:Int?
+    
+        var cartId: String? = ""
         var totalPrice: Double? = 0
         var userPayPrice: Double?
-        var discountPrice: Double?
-        var deliverPrice: Double?
+        var discountPrice: Int?
+        var deliverPrice: Int?
         var deliverType: Int? = 0
         var paymentType: Int? = 0
         var paymentStatus: Int? = 0
@@ -31,10 +33,11 @@ struct MyOrderModel: Codable {
         var city: String? = ""
         var state: String? = ""
         var postalCode: String? = ""
-        var images: [String]? = []
-    var createdDate: Date? = Date()
+        var images: String?//[String]? = []
+    var createdDate: String?//? = Date()
 
     enum CodingKeys: String, CodingKey {
+        case order_id,state,images,city,phone,address,names,status
         case postalCode = "postal_code"
         case userName = "user_name"
         case orderStatus = "order_status"
@@ -54,51 +57,82 @@ struct MyOrderModel: Codable {
 struct MyOrderItemResModel: Codable {
     var status:String?
     var message:String?
-    var payload: [OrderItemModel]?
+    var payload: OrderItemModel?
 }
-struct OrderItemModel:  Identifiable, Codable {
-    var id: UUID = UUID()
-    var prodId: Int? = 0
-    var catId: Int? = 0
-    var brandId: Int? = 0
-    var typeId: Int? = 0
-    var orderId: Int? = 0
-    var qty: Int? = 0
-    var detail: String? = ""
-    var name: String? = ""
-    var unitName: String? = ""
-    var unitValue: String? = ""
-    var nutritionWeight: String? = ""
-    var image: String? = ""
-    var catName: String? = ""
-    var typeName: String? = ""
-    var offerPrice: Double?
-    var itemPrice: Double? = 0.0
-    var totalPrice: Double? = 0.0
-    var price: Double? = 0
-    var startDate: Date? = Date()
-    var endDate: Date? = Date()
-    var isFav: Bool? = false
-    var rating: Int? = 0
-    var message: String? = ""
-    
+struct OrderItemModel:   Codable {
+    let orderID: Int?
+        let cartID: String?
+        let totalPrice, userPayPrice: Double?
+        let discountPrice, deliverPrice, deliverType, paymentType: Int?
+        let paymentStatus, orderStatus, status: Int?
+        let userName, phone, address, city: String?
+        let state, postalCode, createdDate: String?
+        let cartList: [CartList]?
+
+        enum CodingKeys: String, CodingKey {
+            case orderID = "order_id"
+            case cartID = "cart_id"
+            case totalPrice = "total_price"
+            case userPayPrice = "user_pay_price"
+            case discountPrice = "discount_price"
+            case deliverPrice = "deliver_price"
+            case deliverType = "deliver_type"
+            case paymentType = "payment_type"
+            case paymentStatus = "payment_status"
+            case orderStatus = "order_status"
+            case status
+            case userName = "user_name"
+            case phone, address, city, state
+            case postalCode = "postal_code"
+            case createdDate = "created_date"
+            case cartList = "cart_list"
+        }
+}
+
+struct CartList: Codable {
+    let orderID, cartID, userID, prodID: Int?
+    let qty, catID, brandID, typeID: Int?
+    let name, detail, unitName, unitValue: String?
+    let nutritionWeight: String?
+    let price: Double?
+    let createdDate, modifyDate, catName: String?
+    let isFav: Int?
+    let brandName, typeName: String?
+    let offerPrice: Double?
+    let startDate, endDate: String?
+    let isOfferActive: Int?
+    let image: String?
+    let itemPrice, totalPrice: Double?
+    let rating, reviewMessage: String?
+
     enum CodingKeys: String, CodingKey {
-        case isFav = "is_fav"
-        case endDate = "end_date"
-        case startDate = "start_date"
-        case totalPrice = "total_price"
-        case itemPrice = "item_price"
-        case offerPrice = "offer_price"
-        case typeName = "type_name"
-        case catName = "cat_name"
-        case nutritionWeight = "nutrition_weight"
-        case unitValue = "unit_value"
+        case orderID = "order_id"
+        case cartID = "cart_id"
+        case userID = "user_id"
+        case prodID = "prod_id"
+        case qty
+        case catID = "cat_id"
+        case brandID = "brand_id"
+        case typeID = "type_id"
+        case name, detail
         case unitName = "unit_name"
-        case orderId="order_d"
-        
-        case brandId = "brand_id"
-        case typeId = "type_id"
-        case catId = "cat_id"
-        case prodId="prod_id"
+        case unitValue = "unit_value"
+        case nutritionWeight = "nutrition_weight"
+        case price
+        case createdDate = "created_date"
+        case modifyDate = "modify_date"
+        case catName = "cat_name"
+        case isFav = "is_fav"
+        case brandName = "brand_name"
+        case typeName = "type_name"
+        case offerPrice = "offer_price"
+        case startDate = "start_date"
+        case endDate = "end_date"
+        case isOfferActive = "is_offer_active"
+        case image
+        case itemPrice = "item_price"
+        case totalPrice = "total_price"
+        case rating
+        case reviewMessage = "review_message"
     }
 }

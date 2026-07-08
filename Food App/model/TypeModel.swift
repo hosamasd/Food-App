@@ -8,20 +8,26 @@
 import SwiftUI
 
 
-struct HomeModel:Codable {
-    var status,message:String? 
+struct HomeResModel:Codable {
+    var status,message:String?
     
-    var offer_list:[ProductModel]?
+    var payload:HomeModel?
+  }
+struct HomeModel:Codable {
     var best_sell_list:[ProductModel]?
     var list:[ProductModel]?
     var type_list:[TypeModel]?
-    
-    
+    var offer_list:[ProductModel]?
 }
-struct TypeModel: Identifiable, Codable {
+struct TypeModel:  Codable {
+//    var id = UUID().uuidString
+    var id:Int? = 0
     
-    var id: Int? = 0
-    var name: String? = ""
+    var type_id: Int? = 0
+    var type_name: String? = ""
     var image: String? = ""
+    var color:String? = ""
+    
+   
 //    var color: Color = Color.primaryApp
 }

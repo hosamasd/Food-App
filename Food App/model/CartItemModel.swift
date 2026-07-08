@@ -14,6 +14,35 @@ struct CartResModel: Codable {
     var total,discount_amount,deliver_price_amount,user_pay_price:String?
 
 }
+struct CartSendResModel: Codable {
+    var status:String?
+    var message:String?
+    var payload: CartSuccessResModel?
+}
+
+struct CartSuccessResModel: Codable {
+    var orderID: Int?
+//    var cartID: String?
+    var totalPrice, userPayPrice,deliverPrice,discountPrice: Double?
+//    var  deliverType, paymentType: Int?
+//    var paymentStatus, orderStatus, status: Int?
+//    var createdDate, names: String?
+//    var images: String?
+//    var userName, phone, address, city: String?
+//    var state, postalCode: String?
+
+    enum CodingKeys: String, CodingKey {
+        case orderID = "order_id"
+//        case cartID = "cart_id"
+        case totalPrice = "total_price"
+        case userPayPrice = "user_pay_price"
+        case discountPrice = "discount_price"
+        case deliverPrice = "deliver_price"
+    }
+
+}
+
+
 struct CartItemModel:Identifiable, Codable {
     var id: UUID = UUID()
     var cartId: Int? = 0
@@ -34,13 +63,14 @@ struct CartItemModel:Identifiable, Codable {
     var typeName: String? = ""
     var offerPrice: Double?
     var price: Double? = 0
-    var startDate: Date? = Date()
-    var endDate: Date? = Date()
+    var startDate: String? = ""
+    var endDate: String? = ""
     var itemPrice: Double?
     var totalPrice: Double?
-    var isFav: Bool? = false
+    var isFav: Int? = 0
     
     enum CodingKeys: String, CodingKey {
+        case price,image,name,detail,qty
         case cartId = "cart_id"
         case userId = "user_id"
         case prodId = "prod_id"

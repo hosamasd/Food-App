@@ -15,8 +15,12 @@ struct ExploreCategoryResModel: Codable {
 }
 struct ExploreCategoryModel: Codable {
     var id: Int? = 0
-    var name: String? = ""
+    var cat_id:Int? = 0
+    
+    var cat_name: String? = ""
     var image: String? = ""
+    var color:String? 
+    
 //    var color: Color? = Color.primaryApp
 }
 struct ProductResModel: Codable {
@@ -45,12 +49,16 @@ struct ProductModel:  Codable {
     var itemPrice: Double? = 0.0
     var totalPrice: Double? = 0.0
     var price: Double? = 0
-    var startDate: Date? = Date()
-    var endDate: Date? = Date()
-    var isFav: Bool? = false
+    var startDate: String? = ""
+    var endDate: String? = ""
+    var isFav: Int? = 0
     var avgRating: Int? = 0
+    var fav_id:Int?
+    var brand_name:String?
+    var is_offer_active:Int?
     
     enum CodingKeys: String, CodingKey {
+        case price,image,name,detail,qty,fav_id,brand_name,is_offer_active
         case isFav = "is_fav"
         case endDate = "end_date"
         case startDate = "start_date"

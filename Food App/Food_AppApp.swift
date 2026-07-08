@@ -15,15 +15,29 @@ struct Food_AppApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView{
+                
+                if isUserLogin{
+                    MainTabScene()
+                }else{
+                    LoginScene()
+                }
+                
+//                DelieryAddressView()
+                
 //                SignUpScene(vm: LoginSceneViewModel())
 //                SignInScene()
 //                AccountScene()
-                MainTabScene()
+//                MainTabScene()
 //                            LoginScene()
 //                WelcomeScene()
-                    .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
+                    
                 
             }
+            .onAppear(perform: {
+                UIApplication.shared.addTapGestureRecognizer()
+//             isUserLogin=false
+            })
         }
+        
     }
 }

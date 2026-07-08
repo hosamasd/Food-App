@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EmptyView: View {
+struct EmptyViews: View {
     var text = "Your Card is Empty"
     
     var body: some View {

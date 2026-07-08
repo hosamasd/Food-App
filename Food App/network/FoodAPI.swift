@@ -45,8 +45,17 @@ class FoodAPI {
         }
     
 
-    func orderPlace(address_id:String,deliver_type:Int,payment_type:Int,pay_id:String,promo_code_id:Int) async throws -> CartResModel {
-        return try await Network.POST(route: .orderPlace, body: ["address_id":address_id,"deliver_type":deliver_type,"payment_type":payment_type,"pay_id":pay_id,"promo_code_id":promo_code_id])
+    func orderPlace(address_id:String,deliver_type:Int,payment_type:Int,pay_id:String,promo_code_id:Int? = nil) async throws -> CartSendResModel {
+        let body:[String:Any] = ["address_id":address_id,"deliver_type":deliver_type,"payment_type":payment_type,"pay_id":pay_id,"promo_code_id":""]
+        
+        if let jsonData = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted),
+           let jsonString = String(data: jsonData, encoding: .utf8) {
+            print(jsonString)
+        }
+        
+        return try await Network.POST2(route: .orderPlace, body: body)
+        
+        
     }
 
 
@@ -91,11 +100,11 @@ func removeFromCart(cart_id:Int,prod_id:Int) async throws -> CartResModel {
     }
     
     func addAddres(body:AddressSendModel)  async throws -> AddressResModel{
-        return try await Network.POST_JSON(route: .addAddres,auth:false, body: body)
+        return try await Network.POST_JSON(route: .addAddres,auth:true, body: body)
     }
     
     func updateAddres(body:AddressSendModel)  async throws -> AddressResModel{
-        return try await Network.POST_JSON(route: .updateAddres,auth:false, body: body)
+        return try await Network.POST_JSON(route: .updateAddres,auth:true, body: body)
     }
     
     func readAllNotification()  async throws -> LoginResModel{
@@ -108,7 +117,7 @@ func removeFromCart(cart_id:Int,prod_id:Int) async throws -> CartResModel {
         return try await Network.POST(route: .getFavorites, body: [:])
     }
     
-    func getHome()  async throws -> HomeModel{
+    func getHome()  async throws -> HomeResModel{
         return try await Network.POST(route: .getHome, body: [:])
     }
     

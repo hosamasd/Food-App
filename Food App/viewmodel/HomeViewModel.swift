@@ -21,6 +21,11 @@ class HomeViewModel: ObservableObject {
     @Published var listArr: [ProductModel] = []
     @Published var typeArr: [TypeModel] = []
 
+    @Published var offerArrSearch: [ProductModel] = []
+    @Published var bestArrSearch: [ProductModel] = []
+    @Published var listArrSearch: [ProductModel] = []
+    @Published var typeArrSearch: [TypeModel] = []
+    
     init() {
         serviceCallList()
     }
@@ -33,24 +38,28 @@ class HomeViewModel: ObservableObject {
             Task
             {
                 do {
-                    let res: HomeModel = try         await FoodAPI().getHome()
+                    let res: HomeResModel = try         await FoodAPI().getHome()
                     
                     Task{@MainActor in
                         if let err=Int(res.status ?? "0"),err==0 {
                             self.serverError(message: res.message)
                         }else{
                             isLoading=false
-                            if let arr=res.list{
+                            if let arr=res.payload?.list{
                                 self.listArr=arr
+                                self.listArrSearch=arr
                             }
-                            if let arr=res.type_list{
+                            if let arr=res.payload?.type_list{
                                 self.typeArr=arr
+                                self.typeArrSearch=arr
                             }
-                            if let arr=res.best_sell_list{
+                            if let arr=res.payload?.best_sell_list{
                                 self.bestArr=arr
+                                self.bestArrSearch=arr
                             }
-                            if let arr=res.offer_list{
+                            if let arr=res.payload?.offer_list{
                                 self.offerArr=arr
+                                self.offerArrSearch=arr
                             }
                         }
                     }

@@ -18,7 +18,9 @@ struct OTPView: View {
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 .padding(.vertical)
             
-            CustomTextField(title:"Code",hint:"- - - -",text:$vm.resetCode,type: .numberPad,isPassField: .constant(false) )
+            OtpFormFieldView(total:$vm.resetCode,type:.default)
+
+//            CustomTextField(title:"Code",hint:"- - - -",text:$vm.resetCode,type: .numberPad,isPassField: .constant(false) )
             
             HStack{
                 Button {

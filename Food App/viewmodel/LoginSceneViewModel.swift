@@ -15,8 +15,8 @@ class LoginSceneViewModel: ObservableObject {
     @Published var alert=false
         @Published var alertError=false
     
-    @Published var emailLogin=""
-    @Published var passLogin=""
+    @Published var emailLogin="a@a.com"
+    @Published var passLogin="0000"
     @Published var isLogin=0
 
     @Published var emailSignup=""
@@ -258,10 +258,16 @@ class LoginSceneViewModel: ObservableObject {
                             isLoading=false
                             if let user=res.payload{
                                 let cacheUser: LocalJSONStore<UserModel> = LocalJSONStore(storageType: .cache, filename: "UserModel.json")
-                                let sec = UserModel(user_id: 8, id: 1, username: "username", name: "name", email: "a@a.com", mobile: "1001384592", mobileCode: "+2", authToken: "UserModel")
+                                if let userId=user.user_id,userId > 0{
+                                    cacheUser.save(user)
+                                    
+                                }else{
+                                    let sec = UserModel(user_id: 8, id: 1, username: "username", name: "name", email: "a@a.com", mobile: "1001384592", mobileCode: "+2", authToken: user.authToken ?? "")
+                                    cacheUser.save(sec)
+                                }
                                 
 //                                cacheUser.save(user)
-                                cacheUser.save(sec)
+//                                cacheUser.save(sec)
 
                                 isUserLogin = true
                             }

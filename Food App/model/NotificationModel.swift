@@ -9,12 +9,12 @@ import SwiftUI
 
 struct NotificationModel:Identifiable, Codable {
     var id: Int? = 0
-    var refId: Int? = 0
-    var isRead: Int? = 0
-    var notificationType: Int? = 0
+    var ref_id: Int? = 0
+    var is_read: Int? = 0
+    var notification_type: Int? = 0
     var title: String? = ""
     var message: String? = ""
-    var createdDate: Date? = Date()
+    var created_date: Date? = Date()
 }
 struct NotificationResModel: Codable {
     var status:String?

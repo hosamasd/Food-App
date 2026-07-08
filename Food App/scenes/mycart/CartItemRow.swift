@@ -57,12 +57,13 @@ struct CartItemRow: View {
                     }
                     
                     
-                    Text("\(String(describing: cObj.unitValue))\(String(describing: cObj.unitName)), price")
-                        .font(.customfont(.medium, fontSize: 14))
-                        .foregroundColor(.secondaryText)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        .padding(.bottom, 8)
-                    
+                    if let unitValue=cObj.unitValue,let unitName=cObj.unitName{
+                        Text(unitValue+unitName+", price")
+                            .font(.customfont(.medium, fontSize: 14))
+                            .foregroundColor(.secondaryText)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            .padding(.bottom, 8)
+                    }
                     
                     HStack{
                         if let qty=cObj.qty{
@@ -82,13 +83,14 @@ struct CartItemRow: View {
                                     .stroke(  Color.placeholder.opacity(0.5), lineWidth: 1)
                             )
                         }
-                        
-                        Text( "\(String(describing: cObj.qty))" )
-                            .font(.customfont(.bold, fontSize: 24))
-                            .foregroundColor(.primaryText)
-                            .multilineTextAlignment(.center)
-                            .frame(width: 45, height: 45, alignment: .center)
-                        
+                        if let qty = cObj.qty{
+                            Text("\(qty)")
+//                            Text( "\(String(describing: cObj.qty))" )
+                                .font(.customfont(.bold, fontSize: 24))
+                                .foregroundColor(.primaryText)
+                                .multilineTextAlignment(.center)
+                                .frame(width: 45, height: 45, alignment: .center)
+                        }
                         if let qty=cObj.qty{
                             Button {
                                 vm.UpdateQty(cObj: cObj, newQty: qty + 1)

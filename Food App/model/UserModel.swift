@@ -53,10 +53,11 @@ struct UserModel: Codable {
     var email: String?
     var mobile: String?
     var mobileCode: String?
-    var authToken: String? 
+    var authToken: String?
     var reset_code:String? 
     
     enum CodingKeys: String, CodingKey {
+        case mobile,email,name,username,id,user_id,reset_code
         case mobileCode = "mobile_code"
         case authToken = "auth_token"
 

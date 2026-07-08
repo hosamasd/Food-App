@@ -413,7 +413,65 @@ class Network {
             return result
         }
     }
-    
+    private static func makeRequest2(route: Routes, method: HTTPMethods, auth: Bool = true,isPut:Bool = false) throws -> URLRequest
+    {
+        @AppStorage("UserToken") var UserToken: String = ""
+        @AppStorage("cachedUserToken") var cachedUserToken: String = ""
+
+//        let session: Session = Session.shared
+        var q = route.url()
+//        if !q.contains("http"){
+//                q=cachedUserToken+q
+//        }
+
+        let encodedLink = q.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) ?? ""
+        
+//        var request = URLRequest(url: URL(string: route.url())!)
+        var request = URLRequest(url:  URL(string: encodedLink)!  ) //: route.url())!)
+
+        // laravel
+
+//        request.setValue("XMLHttpRequest", forHTTPHeaderField: "X-Requested-With")
+//        request.setValue("application/json", forHTTPHeaderField: "Accept")
+//        request.setValue("b7dcbb3bee57ed51b8bcc5e4ec8dd62a", forHTTPHeaderField: "x-auth-app-token")
+
+        
+        
+//        request.setValue(UUID().uuidString, forHTTPHeaderField: "Postman-Token")
+
+        if method == .JSON_POST || method == .POST //|| method == .JSON_PUT
+        {
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.httpMethod = HTTPMethods.POST.rawValue //isPut ? HTTPMethods.JSON_PUT.rawValue :  HTTPMethods.POST.rawValue
+//            request.httpMethod
+        }
+        else
+        {
+            request.httpMethod = method.rawValue
+        }
+        
+        
+
+        if auth {
+           
+//            guard session.customer != nil else {
+//                throw NetworkError.invalidateSession("Local session is invalid can't make auth request")
+//            }
+            
+//            request.setValue("\(session.customer!.accessToken)" , forHTTPHeaderField: "x-auth-token")
+            let cacheUser: LocalJSONStore<UserModel> = LocalJSONStore(storageType: .cache, filename: "UserModel.json")
+            let access_token = cacheUser.storedValue?.authToken ?? "WudmEczwDKEdEDR5SLTN"
+//            let access_token = cacheUser.storedValue?.authToken ?? "8F9WIG9MwqcTJkpkRXrP"
+
+            request.setValue(access_token , forHTTPHeaderField: "access_token")
+
+            
+            
+        }
+      
+        return request
+        
+    }
     private static func makeRequest(route: Routes, method: HTTPMethods, auth: Bool = true,isPut:Bool = false) throws -> URLRequest
     {
         @AppStorage("UserToken") var UserToken: String = ""
@@ -461,7 +519,7 @@ class Network {
             
 //            request.setValue("\(session.customer!.accessToken)" , forHTTPHeaderField: "x-auth-token")
             let cacheUser: LocalJSONStore<UserModel> = LocalJSONStore(storageType: .cache, filename: "UserModel.json")
-            let access_token = "jd6lMJhd6sLLR6cCfjhK"//cacheUser.storedValue?.authToken ?? 
+            let access_token = cacheUser.storedValue?.authToken ?? "WudmEczwDKEdEDR5SLTN"
 //            let access_token = cacheUser.storedValue?.authToken ?? "8F9WIG9MwqcTJkpkRXrP"
 
             request.setValue(access_token , forHTTPHeaderField: "access_token")
@@ -819,6 +877,18 @@ class Network {
         
     }
     
+    public static func POST3<T: Decodable>(route: Routes, auth: Bool = true, body: [String: Any]) async throws -> T {
+        var request = try makeRequest2(route: route, method: .POST, auth: auth)
+        
+        request.httpBody =  try JSONSerialization.data(withJSONObject: body, options: [])
+        
+        let (data, urlResponse) = try await withTimeout(timeout: timeoutVal) {
+            try await URLSession.shared.data(for: request)
+        }
+            
+        return try Network.makeResponse(data: data, urlResponse: urlResponse)
+        
+    }
     public static func POST2<T: Decodable>(route: Routes, auth: Bool = true, body: [String: Any]) async throws -> T {
      
         var request = try makeRequest(route: route, method: .POST, auth: auth)

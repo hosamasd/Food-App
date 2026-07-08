@@ -36,15 +36,16 @@ struct ExploreScene: View {
                     .padding(.bottom, 4)
                 
                 if(vm.listArr.count == 0) {
-                    EmptyView(text: "no data founded")
+                    EmptyViews(text: "no data founded")
                 }
                 ScrollView {
                     LazyVGrid(columns: colums, spacing: 20) {
-                        ForEach(vm.listArr, id: \.id) {
-                            cObj in
-                            
-                            NavigationLink(destination: ExploreItemsView(vm:vm,category:cObj ) ) {
-                                ExploreCategoryCell(cObj: cObj)
+//                        ForEach(vm.listArr, id: \.id) {
+//                            cObj in
+                            ForEach (vm.listArr.indices, id: \.self) {
+                                cObj in
+                            NavigationLink(destination: ExploreItemsView(vm:vm,category:vm.listArr[cObj] ) ) {
+                                ExploreCategoryCell(cObj: vm.listArr[cObj])
                                     .aspectRatio( 0.95, contentMode: .fill)
                             }
                             

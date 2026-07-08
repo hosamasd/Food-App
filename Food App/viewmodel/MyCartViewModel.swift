@@ -190,7 +190,7 @@ class MyCartViewModel: ObservableObject {
                 self.alertError = true
                 return
             }
-            let promo_code_id = promoObj?.id ?? 0
+            let promo_code_id:Int? = promoObj?.id ?? nil
             
             
             if  !Reachability.isConnectedToNetwork(){
@@ -200,14 +200,22 @@ class MyCartViewModel: ObservableObject {
                  Task
                  {
                      do {
-                         let res: CartResModel = try         await FoodAPI().orderPlace(address_id:deliveryType == 2 ? "" : "\( deliverObj?.id ?? 0)",deliver_type: deliveryType,payment_type: paymentType,pay_id: paymentType == 1 ? "" : "\( paymentObj?.id ?? 0)",promo_code_id: promo_code_id )
+                         let res: CartSendResModel = try         await FoodAPI().orderPlace(address_id:deliveryType == 2 ? "" : "\( deliverObj?.address_id ?? 0)",deliver_type: deliveryType,payment_type: paymentType,pay_id: paymentType == 1 ? "" : "\( paymentObj?.id ?? 0)",promo_code_id: promo_code_id )
                          
                          Task{@MainActor in
                              if let err=Int(res.status ?? "1"),err==0 {
-                                 
+                                 self.serverError(message: res.message ?? "")
                              }else{
     //                             isLoading=false
+                                 self.deliverObj = nil
+                                 self.paymentObj = nil
+                                 self.promoObj = nil
+                                 self.showCheckout = false
+                                 self.alertMsg = res.message ??  "Success"
+                                 self.alertError = true
                                  self.serviceCallList()
+                                 
+                                 self.showOrderAccept = true
                             }
                         }
                      }

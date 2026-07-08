@@ -17,12 +17,15 @@ struct PaymentAddModel: Codable {
 }
 struct PaymentModel: Codable {
     var id: Int? = 0
+    var pay_id:Int? = 0
+    
     var name: String? = ""
     var cardNumber: String? = ""
     var cardMonth: String? = ""
     var cardYear: String? = ""
     
     enum CodingKeys: String, CodingKey {
+        case name,pay_id
         case cardMonth = "card_month"
         case cardYear = "card_year"
         case cardNumber = "card_number"

@@ -44,11 +44,12 @@ struct FavouriteRow: View {
                         .font(.customfont(.bold, fontSize: 16))
                         .foregroundColor(.primaryText)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                    
-                    Text("\(String(describing: fObj.unitValue))\(String(describing: fObj.unitName)), price")
-                        .font(.customfont(.medium, fontSize: 14))
-                        .foregroundColor(.secondaryText)
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                    if let unitValue=fObj.unitValue,let unitName=fObj.unitName{
+                        Text(unitValue+unitName+", Price")
+                            .font(.customfont(.medium, fontSize: 14))
+                            .foregroundColor(.secondaryText)
+                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                    }
                     
                 }
                 

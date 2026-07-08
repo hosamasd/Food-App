@@ -22,6 +22,8 @@ struct AddressResModel: Codable {
 struct AddressModel:  Codable {
     
     var id: Int? = 0
+    var address_id:Int? = 0
+    
     var name: String? = ""
     var phone: String? = ""
     var address: String? = ""
@@ -32,6 +34,7 @@ struct AddressModel:  Codable {
     var isDefault: Int? = 0
     
     enum CodingKeys: String, CodingKey {
+        case state,city,address,phone,name,id,address_id
         case typeName = "type_name"
         case postalCode = "postal_code"
         case isDefault = "is_default"

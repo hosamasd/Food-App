@@ -17,7 +17,7 @@ struct PromoCodeView: View {
         ZStack{
             ZStack{
                 if(vm.listArr.count == 0) {
-                    EmptyView(text: "no data founded")
+                    EmptyViews(text: "no data founded")
                 }
                 ScrollView{
                     LazyVStack(spacing: 15) {

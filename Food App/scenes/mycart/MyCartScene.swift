@@ -14,18 +14,18 @@ struct MyCartScene: View {
         ZStack{
             
             ZStack{
-                if(vm.listArr.count == 0) {
-                    EmptyView()
+                if(vm.listArr.count == 0 && vm.isLoading==false) {
+                    EmptyViews()
                 }
                 
                 ScrollView{
                     LazyVStack {
-                        ForEach( vm.listArr , id: \.id, content: {
+                        ForEach (vm.listArr.indices, id: \.self) {
                             cObj in
                             
-                            CartItemRow(cObj: cObj,vm:vm)
+                            CartItemRow(cObj: vm.listArr[cObj],vm:vm)
                             
-                        })
+                        }
                         .padding(.vertical, 8)
                     }
                     .padding(20)
@@ -96,8 +96,8 @@ struct MyCartScene: View {
                             }
                         }
                     
-//                    CheckoutView(isShow: $vm.showCheckout, vm: vm )
-//                        .transition(.opacity.combined(with: .move(edge: .bottom)))
+                    CheckoutView(isShow: $vm.showCheckout, vm: vm )
+                        .transition(.opacity.combined(with: .move(edge: .bottom)))
                 }
             }
             

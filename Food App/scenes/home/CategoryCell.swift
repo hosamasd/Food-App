@@ -10,6 +10,7 @@ import SwiftUI
 struct CategoryCell: View {
     @State var tObj: TypeModel = TypeModel()
     @State var color: Color = Color.yellow
+    var isFull=false
     var didAddCart: ( ()->() )?
     
     var body: some View {
@@ -41,14 +42,14 @@ struct CategoryCell: View {
             
         
             
-            Text(tObj.name ?? "")
+            Text(tObj.type_name ?? "")
                 .font(.customfont(.bold, fontSize: 16))
-                .foregroundColor(.primaryText)
+                .foregroundColor(Color(hex: tObj.color ?? "53B175") )
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             
         }
         .padding(15)
-        .frame(width: 250, height: 100)
+        .frame(width:isFull ? getFrameSize().width-24 : 250, height: 100)
         .background( Color.primaryApp.opacity(0.3) )
         .cornerRadius(16)
     }

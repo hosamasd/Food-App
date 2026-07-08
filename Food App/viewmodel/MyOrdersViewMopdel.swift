@@ -14,8 +14,8 @@ class MyOrdersViewModel: ObservableObject {
         @Published var alertError=false
     
     @Published var listArr=[MyOrderModel]()
-    @Published var listArrItems: [OrderItemModel] = []
-
+    @Published var listArrItems: [CartList] = []
+    @Published var orderItemDetail:OrderItemModel?
     init() {
         serviceCallList()
     }
@@ -38,7 +38,8 @@ class MyOrdersViewModel: ObservableObject {
                         }else{
                             isLoading=false
                             if let arr=res.payload{
-                                self.listArrItems=arr
+                                self.orderItemDetail=arr
+                                self.listArrItems=arr.cartList ?? []
                             }
                         }
                     }
@@ -62,9 +63,7 @@ class MyOrdersViewModel: ObservableObject {
             Task
             {
                 do {
-                    
-                    
-                    let res: MyOrderResModel = try         await FoodAPI().getMyOrders()
+                   let res: MyOrderResModel = try         await FoodAPI().getMyOrders()
                     
                     Task{@MainActor in
                         if let err=Int(res.status ?? "0"),err==0 {

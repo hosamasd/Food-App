@@ -11,6 +11,10 @@ struct ProductDetailScene: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     @ObservedObject var vm:ExploreViewModel
     var pObj:ProductModel
+    @State var showWriteReview=false
+    @State var isFav=false
+    
+    @Namespace private var animation
     
     var body: some View {
         ZStack{
@@ -18,7 +22,7 @@ struct ProductDetailScene: View {
                 
                 ScrollView {
                     ZStack{
-                          Rectangle()
+                        Rectangle()
                             .foregroundColor( Color(hex: "F2F2F2") )
                             .frame(width: .screenWidth, height: .screenWidth * 0.8)
                             .cornerRadius(20, corner: [.bottomLeft, .bottomRight])
@@ -26,26 +30,30 @@ struct ProductDetailScene: View {
                         CacheAsyncImage(
                             url: URL(string: pObj.image ?? "") ?? URL(fileURLWithPath: "")
                         ) { phase in
-                                switch phase {
-                                case .empty:
-                                    ProgressView()
-                                case .success(let image):
-                                    image
-                                        .resizable()
-//                                        .indicator(.activity) // Activity Indicator
-//                                        .transition(.fade(duration: 0.5))
-                                        .scaledToFit()
-                                        .frame(width: .screenWidth * 0.8, height: .screenWidth * 0.8)
-                                @unknown default:
-                                    fatalError()
-                                }
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                //                                        .indicator(.activity) // Activity Indicator
+                                //                                        .transition(.fade(duration: 0.5))
+                                    .scaledToFit()
+                                    .frame(width: .screenWidth * 0.8, height: .screenWidth * 0.8)
+                                    .matchedGeometryEffect(
+                                        id: pObj.image ?? "",
+                                        in: animation
+                                    )
+                            @unknown default:
+                                fatalError()
                             }
-//                        WebImage(url: URL(string: detailVM.pObj.image ))
-//                            .resizable()
-//                            .indicator(.activity) // Activity Indicator
-//                            .transition(.fade(duration: 0.5))
-//                            .scaledToFit()
-//                            .frame(width: .screenWidth * 0.8, height: .screenWidth * 0.8)
+                        }
+                        //                        WebImage(url: URL(string: detailVM.pObj.image ))
+                        //                            .resizable()
+                        //                            .indicator(.activity) // Activity Indicator
+                        //                            .transition(.fade(duration: 0.5))
+                        //                            .scaledToFit()
+                        //                            .frame(width: .screenWidth * 0.8, height: .screenWidth * 0.8)
                     }
                     .frame(width: .screenWidth, height: .screenWidth * 0.8)
                     
@@ -56,22 +64,23 @@ struct ProductDetailScene: View {
                                 .foregroundColor(.primaryText)
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             Button {
-                                vm.serviceCallAddRemoveFav(pObj: pObj)
+                                vm.serviceCallAddRemoveFav(pObj: pObj,isFromDetails:true)
                             } label: {
                                 
-                                Image( vm.isFav ? "favorite" : "fav"  )
+                                Image( isFav ? "favorite" : "fav"  )
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 30, height: 30)
                             }
                             .foregroundColor(Color.secondaryText)
-
+                            
                         }
-                        Text("\(pObj.unitValue)\(pObj.unitName), Price")
-                            .font(.customfont(.semibold, fontSize: 16))
-                            .foregroundColor(.secondaryText)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        
+                        if let  unitValue=pObj.unitValue,let  unitName=pObj.unitName{
+                            Text(unitValue+unitName+", Price")
+                                .font(.customfont(.semibold, fontSize: 16))
+                                .foregroundColor(.secondaryText)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        }
                         HStack{
                             
                             Button {
@@ -111,7 +120,7 @@ struct ProductDetailScene: View {
                             Text( "$\(  (pObj.offerPrice ?? pObj.price ?? 0.0) * Double(vm.qty) , specifier: "%.2f")"  )
                                 .font(.customfont(.bold, fontSize: 28))
                                 .foregroundColor(.primaryText)
-                                
+                            
                         }
                         .padding(.vertical, 8)
                         
@@ -140,7 +149,7 @@ struct ProductDetailScene: View {
                                     .padding(15)
                             }
                             .foregroundColor(Color.primaryText)
-
+                            
                         }
                         
                         if(vm.isShowDetail) {
@@ -171,21 +180,22 @@ struct ProductDetailScene: View {
                                 .background( Color.placeholder.opacity(0.5) )
                                 .cornerRadius(5)
                             
-                            Button {
-                                withAnimation {
-                                    vm.showNutrition()
+                            if vm.nutritionArr.count > 0{
+                                Button {
+                                    withAnimation {
+                                        vm.showNutrition()
+                                    }
+                                    
+                                } label: {
+                                    
+                                    Image( vm.isShowNutrition ? "detail_open" : "next"  )
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 15, height: 15)
+                                        .padding(15)
                                 }
-                                
-                            } label: {
-                                
-                                Image( vm.isShowNutrition ? "detail_open" : "next"  )
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 15, height: 15)
-                                    .padding(15)
+                                .foregroundColor(Color.primaryText)
                             }
-                            .foregroundColor(Color.primaryText)
-
                         }
                         
                         if(vm.isShowNutrition) {
@@ -206,7 +216,7 @@ struct ProductDetailScene: View {
                                     Divider()
                                 }
                                 .padding(.vertical, 0)
-                               
+                                
                                 
                             }
                             .padding(.horizontal, 10)
@@ -229,15 +239,15 @@ struct ProductDetailScene: View {
                                 Image(systemName:  "star.fill")
                                     .resizable()
                                     .scaledToFit()
-                                        .foregroundColor( Color.orange)
-                                        .frame(width: 15, height: 15)
-                                    
+                                    .foregroundColor( Color.orange)
+                                    .frame(width: 15, height: 15)
+                                
                             }
                         }
                         
                         Button {
-                           
                             
+                            showWriteReview=true
                         } label: {
                             
                             Image( "next" )
@@ -247,7 +257,7 @@ struct ProductDetailScene: View {
                                 .padding(15)
                         }
                         .foregroundColor(Color.primaryText)
-
+                        
                     }
                     .padding(.horizontal, 20)
                     
@@ -285,7 +295,7 @@ struct ProductDetailScene: View {
                                 .scaledToFit()
                                 .frame(width: 25, height: 25)
                         }
-
+                        
                     }
                     
                     Spacer()
@@ -298,11 +308,19 @@ struct ProductDetailScene: View {
                 ArcView()
             }
         }
-      
+        .onChange(of: vm.isFav, perform: {  newValue in
+            isFav = !isFav//newValue
+        })
+        .onAppear(perform: {
+            isFav=pObj.isFav == 1
+        })
         .navigationTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .ignoresSafeArea()
+        .background( NavigationLink(destination: WriteReviewView(), isActive: $showWriteReview, label: {
+            EmptyView()
+        }) )
         .overlay(overlayView: Toasts.init(dataModel: Toasts.ToastDataModel.init(title: vm.alertMsg, image: "checkmark"), show: $vm.alert)
                  , show: $vm.alert)
         .alert(

@@ -14,24 +14,24 @@ struct MyOrdersView: View {
         ZStack{
             ZStack{
                 if(vm.listArr.count == 0) {
-                    EmptyView(text: "no data founded")
+                    EmptyViews(text: "no data founded")
                 }
                 ScrollView{
                     LazyVStack(spacing: 15) {
-                        ForEach( vm.listArr , id: \.id, content: {
+                        ForEach (vm.listArr.indices, id: \.self) {
                             myObj in
                             
                             NavigationLink {
-                                MyOrdersDetailView(prodObj: myObj,vm:vm )
+                                MyOrdersDetailView(prodObj: vm.listArr[myObj],vm:vm )
                             } label: {
-                                MyOrderCellView(myObj:myObj)
+                                MyOrderCellView(myObj:vm.listArr[myObj])
                                 
                             }
                             .padding(15)
                             .background(Color.white)
                             .cornerRadius(5)
                             .shadow(color: Color.black.opacity(0.15), radius: 2)
-                        })
+                        }
                     }
                     .padding(20)
                     .padding(.top, .topInsets + 46)

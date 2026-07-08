@@ -14,16 +14,23 @@ struct FavoriteScene: View {
             ZStack{
                 
                 if(vm.listArr.count == 0) {
-                    EmptyView(text: "no data founded")
+                    EmptyViews(text: "no data founded")
                 }
                 ScrollView{
                     LazyVStack {
-                        ForEach( vm.listArr , id: \.id, content: {
+                        ForEach (vm.listArr.indices, id: \.self) {
                             fObj in
                             
-                            FavouriteRow(fObj: fObj)
                             
-                        })
+//                            FavouriteRow(fObj: fObj)
+                            ProductCell(vm:ExploreViewModel(),pObj: vm.listArr[fObj], isFull:true,didAddCart: {
+                                vm.addToCart(prodId: vm.listArr[fObj].prodId ?? 1, qty: 1) { isDone, msg in
+                                    
+                                    self.vm.alertMsg = msg
+                                    self.vm.alertError = true
+                                }
+                            })
+                        }
                     }
                     .padding(20)
                     .padding(.top, .topInsets + 46)
@@ -50,11 +57,11 @@ struct FavoriteScene: View {
                     
                     Spacer()
                     
-                    if vm.listArr.count > 0{
-                        CustomBTN(title: "Add All To Cart")
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, .bottomInsets + 80)
-                    }
+//                    if vm.listArr.count > 0{
+//                        CustomBTN(title: "Add All To Cart")
+//                            .padding(.horizontal, 20)
+//                            .padding(.bottom, .bottomInsets + 80)
+//                    }
                 }
                 
                 

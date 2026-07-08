@@ -7,6 +7,20 @@
 
 import Foundation
 
+func formatDate(_ dateString: String) -> String {
+    let inputFormatter = ISO8601DateFormatter()
+    inputFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+    guard let date = inputFormatter.date(from: dateString) else {
+        return dateString
+    }
+
+    let outputFormatter = DateFormatter()
+    outputFormatter.dateFormat = "yyyy-MM-dd hh:mm a"
+
+    return outputFormatter.string(from: date)
+}
+
 func isDateInRange(date: String, startDate: String, endDate: String) -> Bool {
     // Create date formatter
     let dateFormatter = DateFormatter()
@@ -21,6 +35,10 @@ func isDateInRange(date: String, startDate: String, endDate: String) -> Bool {
     
     // Check if date is between start and end (inclusive)
     return (dateToCheck >= start) && (dateToCheck <= end)
+}
+
+extension String{
+  
 }
 
 extension Date {

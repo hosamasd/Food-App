@@ -9,20 +9,35 @@ import SwiftUI
 
 struct ExploreCategoryCell: View {
     @State var cObj: ExploreCategoryModel = ExploreCategoryModel()
-
+    
     var body: some View {
         VStack{
             
-//            WebImage(url: URL(string: cObj.image ))
-//                .resizable()
-//                .indicator(.activity) // Activity Indicator
-//                .transition(.fade(duration: 0.5))
-//                .scaledToFit()
-//                .frame(width: 120, height: 90)
+            CacheAsyncImage(
+                url: URL(string: cObj.image ?? "") ?? URL(fileURLWithPath: "")
+            ) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 90)
+                @unknown default:
+                    fatalError()
+                }
+            }
+            //            WebImage(url: URL(string: cObj.image ))
+            //                .resizable()
+            //                .indicator(.activity) // Activity Indicator
+            //                .transition(.fade(duration: 0.5))
+            //                .scaledToFit()
+            //                .frame(width: 120, height: 90)
             
-        
+            
             Spacer()
-            Text(cObj.name ?? "")
+            Text(cObj.cat_name ?? "")
                 .font(.customfont(.bold, fontSize: 16))
                 .foregroundColor(.primaryText)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
@@ -35,7 +50,7 @@ struct ExploreCategoryCell: View {
         .cornerRadius(16)
         .overlay (
             RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.primaryApp, lineWidth: 1)
+                .stroke(Color(hex: cObj.color ?? ""), lineWidth: 1)
         )
     }
 }

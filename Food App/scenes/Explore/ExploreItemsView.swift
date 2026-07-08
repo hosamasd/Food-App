@@ -23,50 +23,65 @@ struct ExploreItemsView: View {
                     
                     HStack{
                         
-                        EmptyView()
-                            .frame(width: 40, height: 40)
+                        Button {
+                            mode.wrappedValue.dismiss()
+                        } label: {
+                            Image("back")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20, height: 20)
+                        }
+
                         
                         Spacer()
                         
-                        Text("Category")
+                        Text(category.cat_name ?? "Category")
                             .font(.customfont(.bold, fontSize: 20))
                             .frame(height: 46)
                         Spacer()
                         
-                        Button(action: {
-                            
-                        }, label: {
-                            Image("add_green")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                        })
-                        .frame(width: 40, height: 40)
+//                        Button(action: {
+//                            
+//                        }, label: {
+//                            Image("add_green")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 20, height: 20)
+//                        })
+//                        .frame(width: 40, height: 40)
                         
                     }
-                    .padding(.top, .topInsets)
-                    .padding(.horizontal, 20)
+//                    .padding(.top, .topInsets)
+//                    .padding(.horizontal, 20)
                     
-                    
-                    
-                    ScrollView {
-                        LazyVGrid(columns: columns,  spacing:15) {
-                             
-                            ForEach(vm.listProductArr, id: \.id) {
-                                pObj in
-                                ProductCell( vm:vm,pObj: pObj, width: .infinity ) {
-                                
-                                    vm.addToCart(prodId: pObj.prodId ?? 1, qty: 1) { isDone, msg in
-                                        
-                                        self.vm.alertMsg = msg
-                                        self.vm.alertError = true
-                                    }
-                                }
-                                
-                            }
+                    if vm.listProductArr.count <= 0,vm.isLoading==false{
+                        VStack{
+                            Spacer()
+                            EmptyViews(text: "no data founded")
+                            Spacer()
                         }
-                        .padding(.vertical, 10)
-                        .padding(.bottom, .bottomInsets + 60)
+                       
+                    }else{
+                        
+                        ScrollView {
+                            LazyVGrid(columns: columns,  spacing:15) {
+                                
+                                ForEach (vm.listProductArr.indices, id: \.self) {
+                                    pObj in
+                                    ProductCell( vm:vm,pObj: vm.listProductArr[pObj], width: .infinity ) {
+                                        
+                                        vm.addToCart(prodId: vm.listProductArr[pObj].prodId ?? 1, qty: 1) { isDone, msg in
+                                            
+                                            self.vm.alertMsg = msg
+                                            self.vm.alertError = true
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                            .padding(.vertical, 10)
+                            .padding(.bottom, .bottomInsets + 60)
+                        }
                     }
                 }
                 .padding(.top, .topInsets)
@@ -78,6 +93,9 @@ struct ExploreItemsView: View {
                 ArcView()
             }
         }
+        .onAppear(perform: {
+            vm.getProdcts(cObj: category)
+        })
        
         .navigationTitle("")
         .navigationBarHidden(true)
