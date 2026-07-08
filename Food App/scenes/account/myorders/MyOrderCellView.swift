@@ -54,6 +54,12 @@ struct MyOrderCellView: View {
 //                                .transition(.fade(duration: 0.5))
                                 .scaledToFit()
                                 .frame(width: 60, height: 60)
+                        
+                        case .failure(_):
+                            Image("beef_bone")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
                         @unknown default:
                             fatalError()
                         }

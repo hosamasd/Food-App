@@ -28,7 +28,7 @@ struct ForgotPasswordSetView: View {
                
               
             CustomBTN(title: "Submit") {
-                vm.getForgetVerfiySetPass()
+                vm.forgetVerifySetPass()
             }
         }
     }

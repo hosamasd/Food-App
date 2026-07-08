@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OTPView: View {
     @ObservedObject var vm:LoginSceneViewModel
+    @State private var isActive: Bool = true
 
     var body: some View {
         VStack{
@@ -26,7 +27,7 @@ struct OTPView: View {
                 Button {
                     vm.forget()
                 } label: {
-                    Text("Resend Code")
+                    Text(vm.timerValue <= 0 ? "Resend Code" : vm.formattedTimer)
                         .font(.customfont(.bold, fontSize: 18))
                         .foregroundColor(.primaryApp)
                         
@@ -47,6 +48,27 @@ struct OTPView: View {
                 
             }
         }
+        .onAppear {
+            startTimer()
+        }
+    }
+    
+    func startTimer()  {
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            if !isActive {
+                timer.invalidate()
+                return
+            }
+            if vm.timerValue <= 0 {
+                timer.invalidate()
+                return
+            }
+            
+            if self.vm.timerValue > 0 {
+                self.vm.timerValue -= 1
+            }
+        }
+
     }
 }
 

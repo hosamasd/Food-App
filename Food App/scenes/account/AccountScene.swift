@@ -133,6 +133,7 @@ struct AccountScene: View {
                         }
                         
                     }
+                    .padding(.bottom,isSmallDevice() ? 60 : 0)
                     .opacity(vm.isHome ? 1 : 0)
                     
                     if !vm.isHome{

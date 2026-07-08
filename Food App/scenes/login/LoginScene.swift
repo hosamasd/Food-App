@@ -74,13 +74,16 @@ struct LoginScene: View {
                             
                         }else if vm.isLogin==1{
                             SignUpView(vm:vm)
-                            
+                                .transition(.move(edge: .leading))
                         }else if vm.isLogin==2{
                             ForgotPasswordView(vm:vm)
+                                .transition(.move(edge: .bottom))
                         }else if vm.isLogin==3{
                             OTPView(vm:vm)
+                                .transition(.move(edge: .leading))
                         }else{
                             ForgotPasswordSetView(vm: vm)
+                                .transition(.move(edge: .trailing))
                         }
                       
                         Spacer()
@@ -147,5 +150,6 @@ extension LoginScene{
             }
             Spacer()
         }
+        .padding(.top,.topInsets)
     }
 }

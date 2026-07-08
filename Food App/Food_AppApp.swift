@@ -19,7 +19,7 @@ struct Food_AppApp: App {
                 if isUserLogin{
                     MainTabScene()
                 }else{
-                    LoginScene()
+                    WelcomeScene()
                 }
                 
 //                DelieryAddressView()

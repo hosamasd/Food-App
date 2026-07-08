@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 class LoginSceneViewModel: ObservableObject {
     @AppStorage("isUserLogin") var isUserLogin: Bool = false
@@ -15,8 +16,8 @@ class LoginSceneViewModel: ObservableObject {
     @Published var alert=false
         @Published var alertError=false
     
-    @Published var emailLogin="a@a.com"
-    @Published var passLogin="0000"
+    @Published var emailLogin=""
+    @Published var passLogin=""
     @Published var isLogin=0
 
     @Published var emailSignup=""
@@ -25,10 +26,28 @@ class LoginSceneViewModel: ObservableObject {
     @Published var userId=0
     @Published var new_password=""
 
-    
+    @Published var timerValue: Int = 120 // Initial value for testing
+
+    private var cancellables = Set<AnyCancellable>()
 
     @Published var username=""
     @Published var passSignup=""
+    
+    var formattedTimer: String {
+        let minutes = timerValue / 60
+        let seconds = timerValue % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+    
+    func startTimer() {
+        Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+            .sink { _ in
+                if self.timerValue > 0 {
+                    self.timerValue -= 1
+                }
+            }
+            .store(in: &cancellables)
+    }
     
     func getLogin() -> LoginPassModel {
         return .init(email: emailLogin, password: passLogin, dervice_token: "")
@@ -72,6 +91,8 @@ class LoginSceneViewModel: ObservableObject {
                             self.serverError(message: res.message)
                         }else{
                             isLoading=false
+                            self.alertMsg=res.message ?? "update password successfully"
+                            self.alertError=true
                             self.isLogin=0
                        }
                    }
@@ -105,8 +126,9 @@ class LoginSceneViewModel: ObservableObject {
                             self.serverError(message: res.message)
                         }else{
                             isLoading=false
-                            if let code = res.payload?.reset_code{
+                            if let code = res.payload?.reset_code,let userid=res.payload?.user_id{
                              resetCode=code
+                                self.userId=userid
                                 self.isLogin=4
                             }
                        }
@@ -125,11 +147,11 @@ class LoginSceneViewModel: ObservableObject {
     
     func forget()  {
         
-//                if(!emailForget.isValidEmail) {
-//                    self.alertMsg = "please enter valid email address"
-//                    self.alertError = true
-//                    return
-//                }
+                if(!emailForget.isValidEmail) {
+                    self.alertMsg = "please enter valid email address"
+                    self.alertError = true
+                    return
+                }
                 
                 if  !Reachability.isConnectedToNetwork(){
                 }else{
@@ -164,23 +186,23 @@ class LoginSceneViewModel: ObservableObject {
     }
     
     func signUp()  {
-//        if(username.isEmpty ) {
-//            self.alertMsg = "please enter valid Username"
-//            self.alertError = true
-//            return
-//        }
-//        
-//        if(!emailSignup.isValidEmail) {
-//            self.alertMsg = "please enter valid email address"
-//            self.alertError = true
-//            return
-//        }
-//
-//        if(passSignup.isEmpty ) {
-//            self.alertMsg = "please enter valid password"
-//            self.alertError = true
-//            return
-//        }
+        if(username.isEmpty ) {
+            self.alertMsg = "please enter valid Username"
+            self.alertError = true
+            return
+        }
+        
+        if(!emailSignup.isValidEmail) {
+            self.alertMsg = "please enter valid email address"
+            self.alertError = true
+            return
+        }
+
+        if(passSignup.isEmpty ) {
+            self.alertMsg = "please enter valid password"
+            self.alertError = true
+            return
+        }
         
         
         if  !Reachability.isConnectedToNetwork(){
@@ -225,17 +247,17 @@ class LoginSceneViewModel: ObservableObject {
 
     
     func login()  {
-//        if(!emailLogin.isValidEmail) {
-//            self.alertMsg = "please enter valid email address"
-//            self.alertError = true
-//            return
-//        }
-//        
-//        if(passLogin.isEmpty ) {
-//            self.alertMsg = "please enter valid password"
-//            self.alertError = true
-//            return
-//        }
+        if(!emailLogin.isValidEmail) {
+            self.alertMsg = "please enter valid email address"
+            self.alertError = true
+            return
+        }
+        
+        if(passLogin.isEmpty ) {
+            self.alertMsg = "please enter valid password"
+            self.alertError = true
+            return
+        }
         
         if  !Reachability.isConnectedToNetwork(){
         }else{
