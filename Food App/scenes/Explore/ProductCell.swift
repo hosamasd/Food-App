@@ -21,12 +21,23 @@ struct ProductCell: View {
         } label: {
             VStack{
                 
-//                WebImage(url: URL(string: pObj.image ))
-//                    .resizable()
-//                    .indicator(.activity) // Activity Indicator
-//                    .transition(.fade(duration: 0.5))
-//                    .scaledToFit()
-//                    .frame(width: 100, height: 80)
+                CacheAsyncImage(
+                    url: URL(string:  pObj.image ?? ""  ) ?? URL(fileURLWithPath: "")
+                ) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                        case .success(let image):
+                            image
+                                .resizable()
+//                                .indicator(.activity) // Activity Indicator
+//                                .transition(.fade(duration: 0.5))
+                                .scaledToFit()
+                                .frame(width: 100, height: 80)
+                    @unknown default:
+                        fatalError()
+                    }
+                }
                 
                 Spacer()
                 

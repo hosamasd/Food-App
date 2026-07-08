@@ -108,6 +108,10 @@ func removeFromCart(cart_id:Int,prod_id:Int) async throws -> CartResModel {
         return try await Network.POST(route: .getFavorites, body: [:])
     }
     
+    func getHome()  async throws -> HomeModel{
+        return try await Network.POST(route: .getHome, body: [:])
+    }
+    
     func getMyOrders()  async throws -> MyOrderResModel{
         return try await Network.POST(route: .getMyOrders, body: [:])
     }

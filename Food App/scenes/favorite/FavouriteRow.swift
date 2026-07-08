@@ -13,6 +13,24 @@ struct FavouriteRow: View {
     var body: some View {
         VStack{
             HStack(spacing: 15){
+                CacheAsyncImage(
+                    url: URL(string: fObj.image ?? "") ?? URL(fileURLWithPath: "")
+                ) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                        case .success(let image):
+                            image
+                                .resizable()
+//                                .indicator(.activity) // Activity Indicator
+//                                .transition(.fade(duration: 0.5))
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                            
+                        @unknown default:
+                            fatalError()
+                        }
+                    }
 //                WebImage(url: URL(string: fObj.image ))
 //                    .resizable()
 //                    .indicator(.activity) // Activity Indicator

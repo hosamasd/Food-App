@@ -40,14 +40,26 @@ struct MyOrderCellView: View {
             
             HStack {
                 
-//                                    if let imgageUrl = myObj.images.first {
-//                                        WebImage(url: URL(string: imgageUrl ))
-//                                            .resizable()
-//                                            .indicator(.activity) // Activity Indicator
-//                                            .transition(.fade(duration: 0.5))
-//                                            .scaledToFit()
-//                                            .frame(width: 60, height: 60)
-//                                    }
+                if let imgageUrl = myObj.images?.first {
+                    CacheAsyncImage(
+                        url: URL(string: imgageUrl ) ?? URL(fileURLWithPath: "")
+                    ) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                        case .success(let image):
+                            image
+                                .resizable()
+//                                .indicator(.activity)
+//                                .transition(.fade(duration: 0.5))
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                        @unknown default:
+                            fatalError()
+                        }
+                        }
+                    }
+                
                 
                 VStack{
                     HStack {

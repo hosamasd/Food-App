@@ -66,6 +66,7 @@ class Network {
         public static var getProdcts = "explore_category_items_list"
         public static var addRemoveFav = "add_remove_favorite"
         public static var getFavorites = "favorite_list"
+        public static var getHome = "home"
 
         
         
@@ -171,6 +172,7 @@ class Network {
         case getProdcts
         case addRemoveFav
         case getFavorites
+        case getHome
         
         case saveApprovalPlans
         case uploadVisitImages
@@ -276,6 +278,8 @@ class Network {
                 return Network.urlBase + APIs.addRemoveFav
             case .getFavorites:
                 return Network.urlBase + APIs.getFavorites
+            case .getHome:
+                return Network.urlBase + APIs.getHome
                 
                 
             case .saveApprovalPlans:

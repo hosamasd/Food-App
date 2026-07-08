@@ -8,65 +8,85 @@ import SwiftUI
 import UIKit
 
 struct ArcView: View {
-    
-    @State var shouldAnimate: Bool = false
-    var timer = Timer.publish(every: 0.25, on: .main, in: .default).autoconnect()
-    @State var progress: CGFloat = 0
-    
-    var body: some View {
-        ZStack {
-           
-         Color.black.opacity(0.4).ignoresSafeArea(.all, edges: .all)
-             .disabled(true)
-//        VStack {
-//            ZStack {
-//                Circle()
-//                    .stroke(Color.secondary.opacity(0.5), style: StrokeStyle(lineWidth: 20, lineCap: .round))
-//                    .frame(width: 200, height: 200)
-//                    .padding(50)
-//                Circle()
-//                    .trim(from: 0, to: progress / 100.0)
-//                    .stroke(Color.green, style: StrokeStyle(lineWidth: 20, lineCap: .round))
-//                    .frame(width: 200, height: 200)
-//                    .rotationEffect(.degrees(-90))
-//                    .padding(50)
-//                    .overlay(
-//                        Text("\(Int(progress)) %")
-//                            .font(.largeTitle)
-//                            .bold()
-//                            .frame(width: 200, height: 200)
-//                            .animation(nil)
-//                    )
-//                    .onReceive(timer) { (_) in
-//                        if self.progress == 100 {
-//                            self.progress = 0
-//                        }
-//                        withAnimation(Animation.linear(duration: 1)) {
-//                            self.progress += 10
-//                        }
-//                }
-//            }
-            
-            ZStack {
-                Arc(sAngle: .degrees(0), eAngle: .degrees(70), clockwise: false)
-                    .stroke(Color.yellow, style: StrokeStyle(lineWidth: 10, lineCap: .round))
-                Arc(sAngle: .degrees(90), eAngle: .degrees(160), clockwise: false)
-                    .stroke(Color.green, style: StrokeStyle(lineWidth: 10, lineCap: .round))
-                Arc(sAngle: .degrees(180), eAngle: .degrees(250), clockwise: false)
-                    .stroke(Color.orange, style: StrokeStyle(lineWidth: 10, lineCap: .round))
-                Arc(sAngle: .degrees(270), eAngle: .degrees(340), clockwise: false)
-                    .stroke(Color.pink, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+    @State private var animate = false
+
+        var body: some View {
+            HStack(spacing: 10) {
+                ForEach(0..<3) { index in
+                    Circle()
+                        .frame(width: 12, height: 12)
+                        .scaleEffect(animate ? 1 : 0.4)
+                        .animation(
+                            .easeInOut(duration: 0.6)
+                            .repeatForever()
+                            .delay(Double(index) * 0.2),
+                            value: animate
+                        )
+                }
             }
-            .rotationEffect(self.shouldAnimate ? .degrees(360) : .zero)
-            
-            .animation(Animation.linear(duration: 2).repeatForever(autoreverses: false))
-            .frame(width: getFrameSize().width/5, height: 200)
             .onAppear {
-                self.shouldAnimate = true
+                animate = true
             }
         }
-    }
     
+//    @State var shouldAnimate: Bool = false
+//    var timer = Timer.publish(every: 0.25, on: .main, in: .default).autoconnect()
+//    @State var progress: CGFloat = 0
+//    
+//    var body: some View {
+//        ZStack {
+//           
+//         Color.black.opacity(0.4).ignoresSafeArea(.all, edges: .all)
+//             .disabled(true)
+////        VStack {
+////            ZStack {
+////                Circle()
+////                    .stroke(Color.secondary.opacity(0.5), style: StrokeStyle(lineWidth: 20, lineCap: .round))
+////                    .frame(width: 200, height: 200)
+////                    .padding(50)
+////                Circle()
+////                    .trim(from: 0, to: progress / 100.0)
+////                    .stroke(Color.green, style: StrokeStyle(lineWidth: 20, lineCap: .round))
+////                    .frame(width: 200, height: 200)
+////                    .rotationEffect(.degrees(-90))
+////                    .padding(50)
+////                    .overlay(
+////                        Text("\(Int(progress)) %")
+////                            .font(.largeTitle)
+////                            .bold()
+////                            .frame(width: 200, height: 200)
+////                            .animation(nil)
+////                    )
+////                    .onReceive(timer) { (_) in
+////                        if self.progress == 100 {
+////                            self.progress = 0
+////                        }
+////                        withAnimation(Animation.linear(duration: 1)) {
+////                            self.progress += 10
+////                        }
+////                }
+////            }
+//            
+//            ZStack {
+//                Arc(sAngle: .degrees(0), eAngle: .degrees(70), clockwise: false)
+//                    .stroke(Color.yellow, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+//                Arc(sAngle: .degrees(90), eAngle: .degrees(160), clockwise: false)
+//                    .stroke(Color.green, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+//                Arc(sAngle: .degrees(180), eAngle: .degrees(250), clockwise: false)
+//                    .stroke(Color.orange, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+//                Arc(sAngle: .degrees(270), eAngle: .degrees(340), clockwise: false)
+//                    .stroke(Color.pink, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+//            }
+//            .rotationEffect(self.shouldAnimate ? .degrees(360) : .zero)
+//            
+//            .animation(Animation.linear(duration: 2).repeatForever(autoreverses: false))
+//            .frame(width: getFrameSize().width/5, height: 200)
+//            .onAppear {
+//                self.shouldAnimate = true
+//            }
+//        }
+//    }
+//    
 }
 
 struct Arc: Shape {

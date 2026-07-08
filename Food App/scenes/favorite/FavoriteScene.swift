@@ -50,11 +50,11 @@ struct FavoriteScene: View {
                     
                     Spacer()
                     
-                    
-                    CustomBTN(title: "Add All To Cart")
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, .bottomInsets + 80)
-                    
+                    if vm.listArr.count > 0{
+                        CustomBTN(title: "Add All To Cart")
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, .bottomInsets + 80)
+                    }
                 }
                 
                 

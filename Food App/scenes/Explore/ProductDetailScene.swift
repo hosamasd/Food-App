@@ -23,6 +23,23 @@ struct ProductDetailScene: View {
                             .frame(width: .screenWidth, height: .screenWidth * 0.8)
                             .cornerRadius(20, corner: [.bottomLeft, .bottomRight])
                         
+                        CacheAsyncImage(
+                            url: URL(string: pObj.image ?? "") ?? URL(fileURLWithPath: "")
+                        ) { phase in
+                                switch phase {
+                                case .empty:
+                                    ProgressView()
+                                case .success(let image):
+                                    image
+                                        .resizable()
+//                                        .indicator(.activity) // Activity Indicator
+//                                        .transition(.fade(duration: 0.5))
+                                        .scaledToFit()
+                                        .frame(width: .screenWidth * 0.8, height: .screenWidth * 0.8)
+                                @unknown default:
+                                    fatalError()
+                                }
+                            }
 //                        WebImage(url: URL(string: detailVM.pObj.image ))
 //                            .resizable()
 //                            .indicator(.activity) // Activity Indicator

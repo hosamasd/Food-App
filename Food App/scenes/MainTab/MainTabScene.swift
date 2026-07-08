@@ -13,16 +13,13 @@ struct MainTabScene: View {
         ZStack{
             
             if(vm.selectTab == 0) {
-//                HomeView()
-                AccountScene()
+                HomeScene()
             }else if(vm.selectTab == 1) {
                 ExploreScene()
-//                AccountScene()
             }else if(vm.selectTab == 2) {
                 MyCartScene()
             }else if(vm.selectTab == 3) {
                 FavoriteScene()
-//                AccountScene()
             }else if(vm.selectTab == 4) {
                 AccountScene()
             }

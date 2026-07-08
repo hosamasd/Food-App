@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EmptyView: View {
-    var text = "You Card is Empty"
+    var text = "Your Card is Empty"
     
     var body: some View {
         Text(text)

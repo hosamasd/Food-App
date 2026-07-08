@@ -12,8 +12,94 @@ class HomeViewModel: ObservableObject {
     @Published var alertMsg=""
     @Published var alert=false
         @Published var alertError=false
+    
     @Published var selectTab: Int = 0
+    @Published var txtSearch: String = ""
+    
+    @Published var offerArr: [ProductModel] = []
+    @Published var bestArr: [ProductModel] = []
+    @Published var listArr: [ProductModel] = []
+    @Published var typeArr: [TypeModel] = []
 
+    init() {
+        serviceCallList()
+    }
+    
+    func serviceCallList(){
+        if  !Reachability.isConnectedToNetwork(){
+        }else{
+            withAnimation{isLoading.toggle()}
+            
+            Task
+            {
+                do {
+                    let res: HomeModel = try         await FoodAPI().getHome()
+                    
+                    Task{@MainActor in
+                        if let err=Int(res.status ?? "0"),err==0 {
+                            self.serverError(message: res.message)
+                        }else{
+                            isLoading=false
+                            if let arr=res.list{
+                                self.listArr=arr
+                            }
+                            if let arr=res.type_list{
+                                self.typeArr=arr
+                            }
+                            if let arr=res.best_sell_list{
+                                self.bestArr=arr
+                            }
+                            if let arr=res.offer_list{
+                                self.offerArr=arr
+                            }
+                        }
+                    }
+                }
+                catch let error as Network.NetworkError
+                {
+                    showErro(error2: error)
+                    Task{@MainActor in
+                        isLoading=false
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    func addToCart(prodId: Int, qty: Int, didDone: ((_ isDone: Bool,_ message: String  )->())?)  {
+        if  !Reachability.isConnectedToNetwork(){
+         }else{
+             withAnimation{isLoading.toggle()}
+             
+             Task
+             {
+                 do {
+                     let res: CartResModel = try         await FoodAPI().addToCart(prod_id: prodId, qty: qty)
+                     
+                     Task{@MainActor in
+                         if let err=Int(res.status ?? "1"),err==0 {
+                             didDone?(true, res.message ?? "Done" )
+
+                         }else{
+                             isLoading=false
+                             didDone?(false, res.message ?? "Fail" )
+
+                        }
+                    }
+                 }
+                 catch let error as Network.NetworkError
+                 {
+                     showErro(error2: error)
+                     Task{@MainActor in
+                         isLoading=false
+                         didDone?(false, error.localizedDescription ?? "Fail" )
+
+                     }
+                 }
+             }
+         }
+    }
     
     func serverError(message:String?)  {
         self.alertMsg=message ?? ""
