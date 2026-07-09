@@ -70,75 +70,6 @@ class Network {
 
         
         
-        
-        public static var saveVisit = "save-actuals"
-        public static var storeLocation = "store_location"
-
-        
-        public static var savePlanningVisit = "save-plan"
-        public static var saveApprovalPlans = "save-approved-plans"
-        public static var uploadVisitImages = "save-approved-plans"
-
-        
-        
-        public static var saveOW = "save-ow"
-        public static var loadOW = "plan-ows"
-        public static var checkInOut = "v2/store_check_in_outs"
-
-        
-        
-        
-//        public static var saveVisit = "https://pulpo.pulposoft.net/api/save-actuals"
-
-    
-        
-        public static var LoginPIN = "https://app.pulpopharma.online/itg_pulpoultra/android/index.php?FN=master&pin={pin}"
-
-        
-        
-        
-        public static var masterData =  "master-data"
-        public static var user = "user"
-        public static var getAccountDoctor = "accounts-doctors?lineId={id}&divId={id2}"
-//        public static var getPlannedVisitsData = "plan-visits"
-//        public static var getPlannedVisitsData = "plan-visits?lineId={id}&divId={id2}"
-//        public static var getPlannedVisitsData = "plan-visits?lineId={id}&divId={id2}"
-        public static var getPlannedVisitsData = "plan-visits"
-        public static var getPendingApprovalData = "pending-plan-visits"
-
-        
-        public static var getPresentaitonsData = "app-presentations"
-
-        
-        public static var getPresentations = "https://pulpo-cira.cloud/itg_pulpoultra_cira/android/index.php?FN={FN}&teamId={id2}"
-
-        public static var loadActualVisit = "save-actuals"
-
-        
-        public static var AddPlace = "/places"
-        public static var EditPlace = "/places/{id}"
-
-        public static var MyPlacesIdTitle =  "/places/my_places_id_title"
-        public static var AddPlaceImage = "/places/{id}/image"
-        public static var AddOffer = "/offers"
-        public static var AddOfferImage =  "/offers/{id}/image"
-        public static var Offers = "/offers/mine"
-        public static var clarify = "plan-clarification"
-
-        
-        
-        
-        
-        public static var RefreshUserData = "/offers/{id}/image"
-                
-        public static var LockStatus = "/api/lock_status/{qr}"
-        
-        public static var Tour = "/api/tours"
-        public static var TourUnlockRequest = "/api/tours/tour_unlock_request"
-        public static var TourEnd = "/api/tours/{id}/end"
-                
-                
-        public static var TestingBody = "/api/testing_body/{id}"
     }
     
  
@@ -173,52 +104,7 @@ class Network {
         case addRemoveFav
         case getFavorites
         case getHome
-        
-        case saveApprovalPlans
-        case uploadVisitImages
-
-        
-        
-        
-        case LoginPIN(String)
-
-        case masterData
-        case user
-        case getAccountDoctor([Int],[Int])
-        case getPlannedVisitsData
-        case getPendingApprovalData
-
-        
-        case getPresentaitonsData
-
-        
-//        case getPlannedVisitsData(Int,Int)
-//        case getPlannedVisitsData([Int],[Int])
-
-        case getPresentations(String,Int)
-        case loadActualVisit
-
-        case saveOW
-        case loadOW
-        case checkInOut
-        case clarify
-        
-        
-        
-        case AddPlace
-        case EditPlace(Int)
-        case AddPlaceImage(Int)
-        case AddOffer
-        case AddOfferImage(Int)
-        case Offers
-
-        case MyPlacesIdTitle
-//        case LockCheck(String)
-//        case LockStatus(String)
-//        case TourUnlockRequest
-//        case TourEnd(Double)
-//        case TestingBody(Int)
-//        case def
+       
         
         func url() -> String {
             switch self {
@@ -282,79 +168,6 @@ class Network {
                 return Network.urlBase + APIs.getHome
                 
                 
-            case .saveApprovalPlans:
-                return Network.urlBase + APIs.saveApprovalPlans
-            case .uploadVisitImages:
-                return Network.urlBase + APIs.uploadVisitImages
-                
-            case .saveOW:
-                return Network.urlBase + APIs.saveOW
-            case .checkInOut:
-                return Network.urlBase + APIs.checkInOut
-                
-            case .loadOW:
-                return Network.urlBase + APIs.loadOW
-                
-            case .LoginPIN(let  pin):
-                return  APIs.LoginPIN.replacingOccurrences(of: "{pin}", with: "\(pin)")
-                
-                
-            case .masterData:
-                return Network.urlBase + APIs.masterData
-            case .user:
-                return Network.urlBase + APIs.user
-            case .getAccountDoctor(let id,let id2):
-                return Network.urlBase + APIs.getAccountDoctor.replacingOccurrences(of: "{id}", with: "\(id)").replacingOccurrences(of: "{id2}", with: "\(id2)")
-            case .getPlannedVisitsData:
-                return Network.urlBase + APIs.getPlannedVisitsData
-            case .getPendingApprovalData:
-                return Network.urlBase + APIs.getPendingApprovalData
-                
-            case .getPresentaitonsData:
-                return Network.urlBase + APIs.getPresentaitonsData
-                
-//            case .getPlannedVisitsData(let id,let id2):
-//                return Network.urlBase + APIs.getPlannedVisitsData.replacingOccurrences(of: "{id}", with: "\(id)").replacingOccurrences(of: "{id2}", with: "\(id2)")
-            case .getPresentations(let FN,let id2):
-//                return Network.urlBase +
-                return APIs.getPresentations.replacingOccurrences(of: "{FN}", with: "\(FN)").replacingOccurrences(of: "{id2}", with: "\(id2)")
-            case .loadActualVisit:
-                return Network.urlBase + APIs.loadActualVisit
-           
-                
-                
-                
-                
-            case .AddPlaceImage(let  id):
-                return Network.urlBase + APIs.AddPlaceImage.replacingOccurrences(of: "{id}", with: "\(id)")
-           
-            case .AddOffer:
-                return Network.urlBase + APIs.AddOffer
-            case .AddOfferImage(let id):
-                return Network.urlBase + APIs.AddOfferImage.replacingOccurrences(of: "{id}", with: "\(id)")
-            case .MyPlacesIdTitle:
-                return Network.urlBase + APIs.MyPlacesIdTitle
-            case .EditPlace(let id):
-                return Network.urlBase + APIs.EditPlace.replacingOccurrences(of: "{id}", with: "\(id)")
-            case .Offers:
-                return Network.urlBase + APIs.Offers
-            case .clarify:
-                return Network.urlBase + APIs.clarify
-                
-//            case .LockCheck(let qr):
-//                return Network.urlBase + APIs.LockCheck.replacingOccurrences(of: "{qr}", with: qr)
-//            case .LockStatus(let qr):
-//                return Network.urlBase + APIs.LockStatus.replacingOccurrences(of: "{qr}", with: qr)
-          
-//            case .TourUnlockRequest:
-//                return Network.urlBase + APIs.TourUnlockRequest
-//            case .TourEnd(let id):
-//                return Network.urlBase + APIs.TourEnd.replacingOccurrences(of: "{id}", with: "\(id)")
-//            case .TestingBody(let id):
-//                return Network.urlBase + APIs.TestingBody.replacingOccurrences(of: "{id}", with: "\(id)")
-            case .AddPlace:
-                return Network.urlBase + APIs.AddPlace
-
             }
         }
     }
